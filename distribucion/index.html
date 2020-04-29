@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>IASC Book</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link rel="stylesheet" href="/iasc-book/css/style.css">
+    <link rel="stylesheet" href="/iasc-book/css/blockquote.css">
+    <link rel="stylesheet" href="/iasc-book/css/syntax.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <!-- Sidebar Holder -->
+<nav class="sidebar">
+    <div class="sidebar-header">
+        <a href="/iasc-book">
+            <h3 class="title">IASC Notes</h3>
+        </a>
+    </div>
+
+    <ul class="list-unstyled components">
+        <p>Temas</p>
+        <li>
+            <a href="/iasc-book/introduccion">Intro</a>
+        </li>
+        <li>
+            <a href="/iasc-book/cps">CPS</a>
+        </li>
+        <li>
+            <a href="/iasc-book/coroutines">Corrutinas</a>
+        </li>
+        <li>
+            <a href="#actoresSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Actores</a>
+            <ul class="collapse list-unstyled" id="actoresSubmenu">
+                <li>
+                    <a href="/iasc-book/actores_intro">Introduccion Actores</a>
+                </li>
+                <li>
+                    <a href="/iasc-book/otp">Elixir OTP</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#stmSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Memoria
+                Transaccional</a>
+            <ul class="collapse list-unstyled" id="stmSubmenu">
+                <li>
+                    <a href="/iasc-book/efecto_lado_haskell">Efectos de lado en Haskell</a>
+                </li>
+                <li>
+                    <a href="/iasc-book/stm">STM</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#distriSubmenu" data-toggle="collapse" aria-expanded="false"
+               class="dropdown-toggle">Distribucion</a>
+            <ul class="collapse list-unstyled" id="distriSubmenu">
+                <li>
+                    <a href="/iasc-book/distribucion">Introduccion a distribucion</a>
+                </li>
+                <li>
+                    <a href="/iasc-book/cap">Notas sobre CAP</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="sidebar-header">
+        <form action="/iasc-book/search" method="get">
+            <input type="text" class="search-leftbar" id="search_box" name="query">
+            <input type="submit" value="Buscar">
+        </form>
+    </div>
+</nav>
+
+    <div class="container header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+    <button type="button" id="sidebarCollapse" class="btn btn-info">
+        <i class="fa fa-align-justify"></i> <span>toggle sidebar</span>
+    </button>
+    <!--<a class="navbar-brand" href="#">Navbar</a> -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/iasc-book">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link navbar-button" href="http://arquitecturas-concurrentes.github.io/">IASC</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+        <div class="titulo-heading">
+    <div class="container-background">
+        <div class="titulo">
+            <h3 class="Title">
+                Distribucion
+            </h3>
+            <br>
+            <h4>
+                Introduccion y nociones de distribucion
+            </h4>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+
+            <div class="inner-content col-sm-8 col-md-10">
+                <h1 id="distribución">Distribución</h1>
+
+<h2 id="introduccion">Introduccion</h2>
+
+<p>Antes de hablar de distribución, es a veces ideal tratar de explicarlo de cómo se llega a ella. En general cuando se plantea la arquitectura de una aplicación, en cuanto a la arquitectura, en donde queda afuera lo que es el diseño e implementación del mismo, en general se plantea o se despliega por primera vez como un monolito, es decir, solo implementar todo nuestro sistema en un solo servidor. Ya sea un prototipo, o una versión temprana (beta) de nuestra aplicación, en general se plantea el monolito como arquitectura inicial, por costos y tiempo en el que se despliega la aplicación, y también porque no tenemos problemas que nos puede causar un sistema distribuido.</p>
+
+<p><img style="width:500px;" src="/iasc-book/images/distribucion/image2.png" class="center" /></p>
+
+<p>Esta es una imagen de una arquitectura monolitica tradicional, con una aplicacion y una base SQL, que en general esta desplegada en un solo servidor. Algunos problemas que puede generar esta arquitectura es la siguiente:</p>
+
+<ul>
+  <li>Incremento de la complejidad de la aplicacion, a medida que pasa el tiempo y la misma empieza a tener gran cantidad de componentes o va creciendo los requerimientos del sistema</li>
+  <li>Cuando empieza a ser usado cada vez por más usuarios, esto hace que aumente la carga y que un solo servidor pueda no ser suficiente o incluso generar problemas con la carga que generan estos usuarios</li>
+</ul>
+
+<p>Ante el aumento de la carga de usuarios, tráfico y mayor interacción entre la aplicación y la base de datos, esto genera una carga mayor en el único servidor que tenemos, por lo cual deberemos escalar. Hay dos tipos de escala:</p>
+
+<h3 id="escala-vertical-scale-up">Escala Vertical (Scale Up)</h3>
+
+<p><img src="/iasc-book/images/distribucion/image6.png" class="center" /></p>
+
+<p>Esta manera de escalar, también conocido como escalar para arriba o verticalmente (?) (scale up), es incrementando los recursos de un servidor o un nodo, o sea aumentar CPU, memoria, disco, etc. 
+Lo que nos permite este tipo de escala es que no necesitamos realizar cambios o desarrollo adicional en nuestro sistema, solo habrá un tiempo en el que nuestro sistema no estará disponible hasta una vez que hayan sido implementado estos cambios. 
+El problema de escalar verticalmente es que el costo empieza a ser exponencial en un momento, por lo que en un momento se puede hacer muy costoso un nodo único muy grande en donde cada vez las mejoras van a ser menores en cuanto a recursos.
+También hay un momento en el que, si utilizamos servidores tradicionales y no mainframes, exista una limitación en cuanto a la tecnología, en general por limitaciones en cuanto a la CPUs</p>
+
+<h3 id="escala-horizontal">Escala Horizontal</h3>
+
+<p><img src="/iasc-book/images/distribucion/image12.png" class="center" /></p>
+
+<p>La otra manera de escalar, es horizontalmente también (Scale Out) es cuando en vez de incrementar los recursos, se agregan nuevos servidores con los mismos recursos. Lo bueno de poder escalar horizontalmente es que la aplicación no deja de estar disponible al escalar de esta manera. El costo con esta metodología es mucho más económica por este medio, que escalando verticalmente, otro aspecto interesante es que es más tolerante a fallos, ya que más copias de la aplicación están corriendo al mismo tiempo. Las grandes desventajas son que la arquitectura se complica, junto con el aumento del ancho de banda entre los distintos componentes que puede llegar a tener nuestro sistema una vez que hagamos scale out.</p>
+
+<p>Con respecto a nuestra aplicación monolítica, podemos bien o replicar toda la aplicación con su bbdd, y que no tengan relación alguna cada una de las maquinas (imagen izquierda), o bien podemos solo replicar en cada uno de los servidores la aplicación y luego tener en otra instancia nuestra bbdd (imagen derecha).</p>
+
+<p><img src="/iasc-book/images/distribucion/image7.png" class="center" /></p>
+
+<p>La motivación para la arquitectura de la imagen de la izquierda puede ser que se quiera distribuir por países el sistema, o sea, que en cada país que exista esta aplicación se dirija a un servidor que contiene todo su estado. La otra manera de escalar horizontalmente nuestro monolito nos permite que no tengamos tres bases de datos distintas, y que incluso el sistema pueda ser visto aun por el usuario como uno solo, o sea generalmente mediante alguna diferencia de endpoints, pero… como manejar la carga de manera que no se sobrecargue un solo servidor y los otros no?  Con un load balancer…</p>
+
+<p><img src="/iasc-book/images/distribucion/image13.png" class="center" /></p>
+
+<p>Un load balancer nos va a permitir usar alguna estrategia por la cual la carga sea distribuida de manera equitativa. Esto puede ser por un algoritmo simple, tal como puede ser un round robin, o puede tener algún feedback de los nodos o servidores, que pueden dar al load balancer un poco más de información sobre a dónde redirigir el tráfico.</p>
+
+<p>Pero esta es la única manera de escalar?? La respuesta es no.</p>
+
+<p>Se puede escalar horizontalmente de varias maneras, existe un libro que es el de “Art of Scalability” de Michael Fisher que nos propone un interesante modelo de cubo de como escalar.</p>
+
+<p><img src="/iasc-book/images/distribucion/image9.png" class="center" /></p>
+
+<p>En esta representación el punto de origen concuerda con el sistema monolítico en una sola instancia, y la arista de arriba a la derecha del cubo, nos representa la máxima escalabilidad de la aplicación. Y como el cubo es en tres dimensiones, eso nos dice que no solo hay una manera de escalar nuestra aplicación sino que hay varias que incluso podríamos llegar a combinar, ahora veremos cada una de las dimensiones</p>
+
+<h3 id="eje-x---clonacion">Eje X - Clonacion</h3>
+
+<p>Esta manera de escalar, es la que vimos al final de la sección anterior, es cuando tenemos varias réplicas de nuestra aplicación monolítica y que pueden o bien acceder a una bbdd. Otros temas a mencionar que no se hayan hecho antes es el tema de que al existir varias copias de nuestro sistema, tendremos que de alguna manera garantizar que los datos se mantengan consistentes, ya que varias copias van a estar accediendo a los mismos datos, por lo que tendremos que bien o implementar un sistema de lockeo de los datos o usar algo que nos garantice esto, que bien puede ser la base de datos.
+Este esquema no nos resuelve aún el problema de una aplicación de alta complejidad, o sea.. Que aun nuestro código va a estar aun organizado como una aplicación monolítica, esto puede no ser una desventaja si no tenemos un basecode demasiado grande pero si lo fuese, por temas de complejidad o incluso de uso de servicios de terceros, tal vez sea un problema a nivel de desarrollo o mantenimiento.</p>
+
+<h3 id="eje-y---descomposición-funcional">Eje Y - Descomposición Funcional</h3>
+
+<p>En vez de tener varias instancias o nodos del mismo sistema, cada uno conteniendo todo el código del sistema, en este eje se va a descomponer nuestra aplicación entre los distintos nodos, esto es lo que se conoce generalmente como microservicios, y cada uno de estos va a ser responsable de una función.</p>
+
+<p><img src="/iasc-book/images/distribucion/image8.png" class="center" /></p>
+
+<p>Y como podemos descomponer a nuestra aplicación?</p>
+
+<ul>
+  <li>
+    <p>Podemos descomponer por medio de la función técnica de lo que hace ya sea un endpoint, o una funcionalidad, por ejemplo, se puede descomponer una aplicación en servicios de capacidad (capability-services) como login, usuarios, productos, etc. Abajo hay un pequeño ejemplo de un servicio de discusión, estilo reddit.</p>
+  </li>
+  <li>
+    <p>Otra manera de descomponer es dividir por dominios a la aplicación, o sea por los recursos pero como un todo, y no por las funcionalidades, o sea si tenemos una aplicación de venta, podemos dividir la aplicación en: servicio al cliente, ventas, catalogo para el usuario. Esta división es más bien por entidades (Entity-Services)</p>
+  </li>
+</ul>
+
+<p>También pueden combinarse esta división o usarse otro tipo de división del sistema, el esquema no es estricto en este sentido, por lo que nos da la libertad de escalar nuestra aplicación o más bien de dividirla de acuerdo a nuestro dominio. No hay ya necesidad de clonar toda la aplicación de esta manera. El problema es que esto genera otras desventajas y son que ahora nuestros microservicios además de trabajar con la bbdd a veces tendrán que coordinarse los unos a los otros mediante mensajes o requests incluso, también puede haber un incremento en el uso del ancho de banda.</p>
+
+<h3 id="eje-z---shardingdata-partitioning">Eje Z - Sharding/Data Partitioning</h3>
+
+<p>Hasta ahora vimos cómo dividir nuestro sistema pero a nivel de organización de la lógica de nuestros componentes, puede existir el caso en el que si estamos persistiendo los datos de nuestro sistema, el mismo aún tenga una sola base de datos o a lo sumo este replicada en otras bases, pero que en suma estas réplicas son solo una copia de todo el estado de la base de datos principal, por lo que en ese esquema solo una base de datos admite escrituras y todas puedan ser leídas. Dependiendo del tipo de réplica, la misma puede ser hecha ni bien se escriben los valores o a veces pueden tenerse escrituras que no garantice que una vez que se escribió el valor en la base de datos, el mismo esté replicado en las otras bases, esto se llama replicación asincrónica. Pueden ver mas de esto en el siguiente (link)[https://www.cybertec-postgresql.com/en/services/postgresql-replication/synchronous-synchronous-replication/]</p>
+
+<p>Pero aún tenemos el estado, a lo sumo replicado, tal como lo teníamos con los servidores al escalarlo mediante clonación (eje x), y solo podemos tener una escritura a la vez, esto puede ser un cuello de botella si existen muchas escrituras sobre la base de datos. El esquema de este eje z, es el de dividir la base de datos o el estado en subsets, por lo que podemos dividir el estado bajo un criterio determinado, por ejemplo si tenemos un estado que son los productos, bien podemos dividir los mismos por rango de letras como el siguiente ejemplo.</p>
+
+<p><img src="/iasc-book/images/distribucion/image4.png" class="center" /></p>
+
+<p>Y como tenemos ahora el estado particionado, vamos a tener que tener algo que nos pueda despachar al nodo correcto los pedidos de lectura o escritura, que puede ser un load balancer, o bien que los nodos de estado o persistencia se puedan hablar entre ellos para devolver o persistir el estado, esto último es en el caso en el que no se tenga una base de datos relacional o tan solo se pueda implementar un shardeo de este tipo.
+Lo interesante de este esquema es que no tenemos más de un nodo de datos que pueda aceptar escrituras, aunque solo habrá una escritura por subset.</p>
+
+<h2 id="combinación-de-ejes">Combinación de Ejes</h2>
+
+<p>Como el modelo de escala es tridimensional, se puede incluso combinar para que nuestra arquitectura sea más robusta, por ejemplo, podemos tener un esquema de microservicios en el que además cada servicio, como el de login, puede esta clonado y tener más de un servicio de login disponible y el mismo esté tan solo distribuido por un segundo nivel de load balancer que redirige los request con un criterio, que nos da un esquema así? Como dijimos antes, mayor robustez, si bien escalar por microservicios divide la carga, aun todos los usuarios en gran medida, deberán loguearse, y ademas al separar los servicios, aun seguimos teniendo un solo punto de fallo, por lo que para que el servicio esté disponible si el servidor de login se cae, es el de escalar después este microservicio por medio de clonar el mismo en varios servidores idénticos con este microservicios.</p>
+
+<p><img src="/iasc-book/images/distribucion/image5.png" class="center" /></p>
+
+<h3 id="sesiones">Sesiones</h3>
+
+<p>Otro tema que no hablamos antes es sobre las sesiones en nuestra aplicación ahora distribuida, en el primer caso que es el de replicar la aplicación, si tenemos varios nodos con toda nuestra aplicación y un load balancer, puede ocurrir que un usuario se loguee en un nodo y luego en otro request, pueda ser redirigido a otro nodo donde no se tiene registro de su login, como se resuelve esto? O bien teniendo un lugar, como una base de datos aparte donde se registren las sesiones o bien se puede optar por un esquema de sticky sessions</p>
+
+<p><img src="/iasc-book/images/distribucion/image10.png" class="center" /></p>
+
+<p>ELs sticky sessions permiten mediante una cookie, saber contra qué servidor se autenticaron, además de otra información de la sesión, el load balancer sabe a qué nodo redirigir los requests de un usuario en particular sobre un modelo de cloning o en el que nuestra aplicación esta solo replicada, en otros tipo de arquitecturas como microservicios, puede ser que no sea necesario a menos que exista solo nodo de login de usuarios.</p>
+
+<h3 id="heartbeat-y-gossip">Heartbeat y gossip</h3>
+
+<p>A veces es necesario saber si un nodo o servicio esta disponible y que sepamos que no este caido, a veces si es solo un servicio que estamos exponiendo podemos tan solo tener un healthcheck, que es solo un endpoint de nuestro sistema,( algo mas de detalle en (https://microservices.io/patterns/observability/health-check-api.html)[https://microservices.io/patterns/observability/health-check-api.html], puede ser incluso implementado si no estamos en un esquema de microservicios) para confirmar si nuestro servicio esta disponible y puede admitir nuevos pedidos, pero esto es en general a nivel de HHTP, por lo que si un nodo nuestro se cae podriamos no llegar a poder responder un request hecho a nuestro endpoint. 
+Entonces cómo podemos detectar fallas en nodos de nuestro sistema si no es solo mediante un chequeo de healthcheck o un mecanismo similar? Podemos hacerlo mediante conexiones de tcp en las que se pase un token o un bit o un valor que se van a ir pasando entre los nodos, y de esta manera cuando un nodo deje de pasar ese valor después de un tiempo prolongado, muy superior al tiempo entre emisión de este valor, se puede tomar al nodo como caido.
+Esto se lo conoce como heartbeat, y es útil para conocer si se cayeron los nodos sin depender de un healthcheck, ya que pudo existir una caída del nodo y que no sea un problema lógico o de algún componente o servicio externo. Lo recomendable es que la información de heartbeat este en una vía o conexión distinta a lo que se usaría para intercambiar información entre nodos o servidores.
+Otra manera un poco mas bien ordenada o distribuida, de cómo notificar a otros servidores y no hacer múltiples conexiones entre nodos, para usar heartbeat, es el de usar un protocolo de gossip. Esto permite que se intercambie más información entre servidores, y que no sea solo un simple valor o bit, por ejemplo, puede ser información tal como por ejemplo: “se cayó el nodo de login x”, o “volvió a estar disponible el nodo que contiene la base de datos”. Se puede encontrar un poco más de información en el siguiente (link)[https://github.com/gossiperl/gossiperl/wiki/gossip-in-computer-science]</p>
+
+<h2 id="distribución-en-elixirerlang-beam">Distribución en Elixir/Erlang (BEAM)</h2>
+
+<p>Cuando hablamos de distribución en general, en general estamos solos sin ayuda de algún componente del lenguaje que estamos usando, es decir, estamos solos en la oscuridad sin saber qué es lo que puede suceder. Con erlang/elixir, a pesar de que posee mecanismos como los que vimos, tampoco estamos con mucha más ayuda del lenguaje, o sea seguimos en la oscuridad. Elixir nos da ventajas para tolerancia a fallos y resiliencia pero no mucho más que eso. Cuando se implementó Erlang muchas de las consideraciones que veremos hoy no se tomaron en cuenta por un tema de que la arquitectura en la que fue concebido es distinto a lo que hoy conocemos.
+Elixir posee algunas cosas base por la cuales podemos utilizar como fundaciones para construir aplicaciones distribuidas, que ya vimos interconectando máquinas virtuales entre si, como serializar datos (van a tener que ver la api para esto), y como saber cuando un nodo se cae (esto lo vemos pronto), pero no sobre soluciones específicas como que pasa cuando un proceso se cae o algo falla inesperadamente en una maquina. O sea OTP nos da muchas herramientas para ir manejando y construyendo estas herramientas pero no existe una en particular para solucionar todos los problemas puntuales de nuestra aplicación Erlang/Elixir, o sea no hay bala de plata.</p>
+
+<p>Una instancia de la máquina virtual de erlang, que está lista para comunicarse con otras vm’s las llamaremos nodos. Cuando se inicializa un nodo, se le da un nombre en concreto como vimos con el caso del ping pong y este se conecta a una aplicación llamada Erlang Port Mapper Daemon (EPMD), que ejecuta en cada una de las máquinas que son parte del cluster que estaremos armando, si es el caso que es más de una máquina. EPMD actuará como un name server que permite que los nodos se registren, se contacten con otros nodos y notifiquen cuando hay algún conflicto de nombres.</p>
+
+<p>De esta manera ya podemos empezar a conectar uno nodos con otros, y ver como empiezan a haber comunicación entre estos, un primer approach que se puede ver es que si se tiene un nodo A y otro B solo con una conexión y uno de estos se cae, el otro nodo queda aislado.</p>
+
+<p>Si B estaba comunicado con C y necesita procesar algo que puede solo hacerlo A y B solo lo hacia delegando a A, esta funcionalidad ya no funciona ya que A esta aislado. Una primera idea es interconectar a todos con todos. Esta idea podría ser interesante, más que nada por una cuestión de tolerancia a fallos, pero sucede que puede ser un problema si la aplicación escala y se necesitan interconectar más nodos. Será dificil de tener cientos y cientos de nodos interconectados en sí más que nada por la cantidad de conexiones que necesitan, también hay que recordar que se necesita un puerto por nodo al que se está conectando. La topología más común a esto es hacerlo en forma de anillo, algo parecido a lo que hay en token ring, pero sin el token.</p>
+
+<p>Una vez que se conectaron los nodos, estos son ya independientes, poseen su registro del proceso, sus tablas de ETS y módulos independientes unos de otros. Un nodo cuando se cae no hace que se caigan los nodos asociados. Lo interesante de la conexión entre nodos es que se pueden mandar mensajes de la misma manera en la que se lo hace entre procesos de un mismo nodo. La serialización/deserialización lo hace automáticamente y de manera transparente el nodo. Veremos que las estructuras incluidas los pids funcionan de la misma manera remotamente como localmente, esto significa que puede mandarse mensajes de pids sobre la red y comunicarlos mediante mensajes.</p>
+
+<h2 id="bonus-mitos-de-la-distribución">Bonus: Mitos de la distribución</h2>
+
+<p>Durante muchos tiempo, existieron 8 leyes o enunciados principales que son falacias y que son difíciles de manejar y la gente de erlang tomó algunas decisiones cuando se diseñó el lenguaje en sí.</p>
+
+<ul>
+  <li>
+    <p>La red es confiable: Esta es la primera falacia que hay en la computación distribuida, pueden existir fallos de red bastante más frecuente de lo que uno cree, más acá que en otros lados incluso por muchas razones (cortes de luz, falla de hardware, cable roto, etc). Entonces ya de por si no es verdadero que uno puede interconectar dos nodos en una red y siempre esperar que uno desde un nodo se puede conectar y hablar normalmente con otro nodo. Erlang en si no tiene un mecanismo especial para eso, lo mejor que nos provee es que haya una comunicación asincrónica en la que se manden mensajes asincrónicamente y después de un timeout se reintente o falle, entonces si un nodo se cae, lo manejaremos como si fuese un fallo local.</p>
+  </li>
+  <li>
+    <p>No hay latencia: Esta es otra falacia ya que de por sí a menos que estén todos los nodos en una sola máquina, siempre existe la conocida latencia de red, e incluso si los nodos estuviesen localmente existe una pequeña latencia. Erlang de la manera en la que es, teniendo nodos como procesos aislados e independientes, mensajes asincrónicos, timeouts, monitores, nos permite ir manejando y viendo cómo ir tratando de manejar la latencia entre los distintos nodos e ir ajustando esto dependiendo de la red.</p>
+  </li>
+  <li>
+    <p>El ancho de banda es infinito: Si bien el ancho de banda es mucho mayor que hace unos años, no hay que ir pasando exceso de información o gran cantidad de información entre dos nodos, siempre hay que tener en consideración que una comunicación entre dos nodos pasa en general mediante una conexión de TCP y solo una. Entonces todos los mensajes que mandemos pasarán por un solo canal entre dos nodos, entonces pasar un mensaje muy grande puede generar un bloqueo para otros mensajes consecuentes en este canal y crear un cuello de botella. Además Erlang/Elixir tienen un mecanismo para saber que los nodos están aún vivos que se lo conoce como heartbeat, y funciona de manera en el que los nodos  conectados mandan mensajes cortos entre sí para avisar que aún están vivos y levantados y pueden hablar entre sí llamados beats. Estos mensajes se pasan por el mismo canal que los mensajes comunes entonces bloquear el canal con un mensaje muy grande puede generar que se bloquee el mensaje de beat y luego de pasado un tiempo que se rompa el vínculo entre los nodos.</p>
+  </li>
+  <li>
+    <p>La red es segura. Acá no hay mucho que explicar, sabemos que la red es bastante insegura hoy por hoy. En general las aplicaciones se arman en clusters en una red local, y en general hacerlo en nodos en diferentes lugares físicos no está recomendado, de tener que hacerlo, debería implementar algún mecanismo que no viene por default en Erlang/Elixir, mediante ssl, o implementar el protocolo de comunicación entre los nodos. Hay algunos links que después pasaremos de esto.</p>
+  </li>
+  <li>
+    <p>La Topología no cambia. Uno puede diseñar una aplicación distribuida en una LAN o intranet con una cantidad de máquinas con IP fija y una red pre-establecida, pero la realidad es que.. el hardware cambia con el tiempo, se hacen migraciones de red, o se cambia como era la topología de la LAN o inranet. Entonces sucede que no se puede hardcodear la ip de las máquinas al interconectarlas, para eso, Erlang identifica mendiante username a los nodos, hay un mecanismo que no veremos pero que existe llamado cookies que permite que se pueda identificar a un nodo con un username, no hay que confundirlo con las cookies de http pero son algo similares, aunque nunca deben considerarse un mecanismo de seguridad.</p>
+  </li>
+  <li>
+    <p>Solo hay un administrador. Esto se cae muy rápido en los caso que tengamos una gran cantidad de servidores o incluso cuando nuestro sistema empieza a escalar, como vimos para volver a levantar procesos en Erlang es dentro de todo bastante simple aunque debe hacerse por medio de un administrador o persona si el nodo se cae definitivamente.</p>
+  </li>
+  <li>
+    <p>El costo de transporte es cero. Lease esto como costo de transporte de datos de un nodo a otro en términos de tiempos y/o dinero. Serializar los datos no es gratis o rápido a veces, y la red posee una latencia también como mencionamos que acarrea un costo. En cuanto a costo monetario, siempre hay costo de mantenimiento de la red, servicio de ISP, hardware, personal.</p>
+  </li>
+  <li>
+    <p>La red es homogenea. Esto último se refiere a que siempre usamos los mismos formatos para operar todo junto. Esto se refiere a que siempre se usa un mismo estándar y no siempre es así, se usan distintos lenguajes y estándares (XML, JSON, no no vamos a compararlos aca), pero en Erlang se tiene en cuenta que siempre nos vamos a comunicar y hablar con nodos y nuestro sistema está en el mismo lenguaje y que hablan el mismo protocolo. Entonces volvemos a un concepto como duck typing, en la que si tenemos un nodo que está implementado en otro lenguaje pero usa el mismo protocolo que erlang, entonces podrá hablar con otros nodos, un caso es cnode.
+Otra manera de intercambiar información es mediante BERT-RPC, cualquier otro sistema que use esta implementación podrá pasar información a un nodo erlang/elixir.</p>
+  </li>
+</ul>
+
+<h2 id="interleaving-y-netsplits">Interleaving y netsplits</h2>
+
+<p>Sucede a veces cuando tenemos una interconexión entre nodos, momentos en los que tal vez un nodo no empieza a responder a los heartbeats y perdemos conocimiento de él, después de un tiempo tendremos que asumir que esta muerto. En general se asume, y también en lenguajes que nos ayudan con algunos temas de distribución como Erlang, que si un nodo no se puede conocer si está vivo, está muerto, que es el caso más pesimista que es cuando se piensa que hay más fallos de hardware/software que de red. Otro esquema sería el optimista en el que el nodo está vivo y en realidad lo que pasó es que por un momento la red se cayó o había demasiada latencia y no llegaba al nodo extraviado. Este esquema supone que es más frecuente el fallo de red que de hardware/software. Imaginemos un sitio de compra y venta tipo mercadolibre con dos nodos y sucede este esquema, cuando se realizar una transacción en un nodo, se debe también sincronizar la transacción en el otro nodo ya que puede existir el caso que una de las dos partes tiene su cuenta en otro nodo, si funciona todo bien no hay problemas, pero en el caso de que uno de los nodos no responda, y luego en realidad haya pasado que había un fallo de la red, el nodo queda desincronizado, pero el esquema que tomemos puede tener una desventaja u otra, el pesimista es que no permita que haya transacciones y en consecuencia perdamos plata, no cobramos la comisión, pero el otro caso si es optimista, puede suceder que haya un interleave que deje que dos personas compre un mismo productos en los dos nodos y después no se sepa quien ganó.</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="footer">
+    <div class="columns small-12 medium-12 large-12">
+        © 2020 - IASC
+    </div>
+</div>
+<!-- jQuery CDN - Slim version (=without AJAX) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<!-- Popper.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+        integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+<!-- Lunr JS Search -->
+<!-- <script src="https://unpkg.com/lunr/lunr.js"></script> -->
+<script src="https://unpkg.com/lunr@1.0/lunr.js"></script>
+<script src="/iasc-book//js/search.js"></script>
+
+
+<!--This part will enable the circle button to show/hide the right bar-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('.sidebar').toggleClass('sidebar-inactive');
+            $(this).toggleClass('active');
+        });
+    });
+</script>
+
+
+</body>
+
+</html>

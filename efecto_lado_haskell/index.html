@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>IASC Book</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link rel="stylesheet" href="/iasc-book/css/style.css">
+    <link rel="stylesheet" href="/iasc-book/css/blockquote.css">
+    <link rel="stylesheet" href="/iasc-book/css/syntax.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <!-- Sidebar Holder -->
+<nav class="sidebar">
+    <div class="sidebar-header">
+        <a href="/iasc-book">
+            <h3 class="title">IASC Notes</h3>
+        </a>
+    </div>
+
+    <ul class="list-unstyled components">
+        <p>Temas</p>
+        <li>
+            <a href="/iasc-book/introduccion">Intro</a>
+        </li>
+        <li>
+            <a href="/iasc-book/cps">CPS</a>
+        </li>
+        <li>
+            <a href="/iasc-book/coroutines">Corrutinas</a>
+        </li>
+        <li>
+            <a href="#actoresSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Actores</a>
+            <ul class="collapse list-unstyled" id="actoresSubmenu">
+                <li>
+                    <a href="/iasc-book/actores_intro">Introduccion Actores</a>
+                </li>
+                <li>
+                    <a href="/iasc-book/otp">Elixir OTP</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#stmSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Memoria
+                Transaccional</a>
+            <ul class="collapse list-unstyled" id="stmSubmenu">
+                <li>
+                    <a href="/iasc-book/efecto_lado_haskell">Efectos de lado en Haskell</a>
+                </li>
+                <li>
+                    <a href="/iasc-book/stm">STM</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#distriSubmenu" data-toggle="collapse" aria-expanded="false"
+               class="dropdown-toggle">Distribucion</a>
+            <ul class="collapse list-unstyled" id="distriSubmenu">
+                <li>
+                    <a href="/iasc-book/distribucion">Introduccion a distribucion</a>
+                </li>
+                <li>
+                    <a href="/iasc-book/cap">Notas sobre CAP</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="sidebar-header">
+        <form action="/iasc-book/search" method="get">
+            <input type="text" class="search-leftbar" id="search_box" name="query">
+            <input type="submit" value="Buscar">
+        </form>
+    </div>
+</nav>
+
+    <div class="container header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+    <button type="button" id="sidebarCollapse" class="btn btn-info">
+        <i class="fa fa-align-justify"></i> <span>toggle sidebar</span>
+    </button>
+    <!--<a class="navbar-brand" href="#">Navbar</a> -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/iasc-book">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link navbar-button" href="http://arquitecturas-concurrentes.github.io/">IASC</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+        <div class="titulo-heading">
+    <div class="container-background">
+        <div class="titulo">
+            <h3 class="Title">
+                Efectos de Lado en Haskell
+            </h3>
+            <br>
+            <h4>
+                Una intro a memoria transaccional en Haskell
+            </h4>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+
+            <div class="inner-content col-sm-8 col-md-10">
+                <h1 id="efectos-de-lado">Efectos de Lado</h1>
+
+<h2 id="intoduccion">Intoduccion</h2>
+
+<p>Durante la clase pasada estuvimos viendo monadas y otros conceptos en haskell como functores y aplicativos. Si bien pareceria que la clase pasada presenta a simple vista una cierta desconexion con respecto a concurrencia, esto no es tan asi ya que una monada puede verse como una computacion que puede llegar a cambiar por un estado valido o invalido a lo largo del codigo.</p>
+
+<p>Durante lo que se ha visto hasta ahora en haskell no se ha mencionado nada sobre efecto de lado, y esto es porque se comento seguramente que Haskell es un lenguaje netamente puro, y por ende, sin efecto de lado, esto no es tan asi si se muestra un ejemplo como este en donde se imprime algo por pantalla:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">import</span> <span class="nn">System.IO</span>
+
+<span class="n">main</span> <span class="o">::</span> <span class="kt">IO</span> <span class="nb">()</span>
+<span class="n">main</span> <span class="o">=</span> <span class="kr">do</span>
+  <span class="n">hPutStr</span> <span class="n">stdout</span> <span class="s">"Hola mundo!"</span>
+</code></pre></div></div>
+
+<p>Aqui es donde introducimos un cambio en el estado del sistema, y si bien es una impresion por pantalla, algo tan simple como un print por stdout es en si un efecto de lado. Entonces que es lo que consideramos como un efecto de lado?</p>
+
+<p>Un efecto de lado es cualquier cosa que lee o escribe un estado mutable. el I/O es un ejemplo claro de esto, ya que estamos pasandole a un handle que es el stdout, una escritura que en el ejemplo es el <code class="highlighter-rouge">Hola mundo!</code></p>
+
+<p>veamos la firma de lo que usamos para imprimir algo por pantalla</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">hPutStr</span>  <span class="o">::</span> <span class="kt">Handle</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="nb">()</span>
+<span class="n">hGetLine</span> <span class="o">::</span> <span class="kt">Handle</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="kt">String</span>
+</code></pre></div></div>
+
+<p>si bien hay que pasarle un handle, y un string, estariamos devolviendo un <code class="highlighter-rouge">IO ()</code> y un <code class="highlighter-rouge">IO String</code>, la diferencua es que un IO string, es como una caja de IO, que nos permite guardar un valor que puede ser mutable y el tipo que contiene en esa caja es del tipo String, cuando se le pasa los parentesis, significa que hay un tipo, cuyo unico valor es () y que se usa solo para representar que no nos interesa el retorno de la funcion, y esto es porque no hay nada util o necesario que querramos realmente hacer con este valor de retorno, y por eso se usa generalmente para funciones que producen efecto de lado.</p>
+
+<p>Genial ahora sabemos que no hay tanta diferencia entre estos retornos. Podemos generalizar esta firma con algo como <code class="highlighter-rouge">IO a</code> con un tipo particular, y a esto se le llama en Haskell como <code class="highlighter-rouge">actions</code>. por lo que al hacer <code class="highlighter-rouge">hPutStr stdout 'hola'</code>, es una accion que cuando se ejecuta, va a imprimir hola en el handle que es <code class="highlighter-rouge">stdout</code>.</p>
+
+<p>Ahora si quisieramos tener mas de una accion, habria que concatenarlas, o sea componerlas, por lo que deberiamos obtener el valor de esta caja que es IO, obtener el valor y utilizarla en la proxima linea por lo que si tenemos que usar el operador <code class="highlighter-rouge">&gt;&gt;</code> para concatener por ej una seria de hPutStr</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">main</span> <span class="o">=</span> <span class="p">(</span><span class="n">hPutStr</span> <span class="n">stdout</span> <span class="s">"Hola mundo!"</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="n">hPutStr</span> <span class="n">stdout</span> <span class="s">"Mi segunda linea"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>para simplificarlo vamos a usar la <code class="highlighter-rouge">do</code> notation:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">main</span> <span class="o">=</span> <span class="kr">do</span>
+    <span class="n">hPutStr</span> <span class="n">stdout</span> <span class="s">"Hola mundo!"</span>
+    <span class="n">hPutStr</span> <span class="n">stdout</span> <span class="s">"Mi segunda linea"</span>
+</code></pre></div></div>
+
+<p>Ahora que pasa si tenemos que leer una linea e imprimirla?</p>
+
+<p>Con la do-notation:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">main</span> <span class="o">=</span> <span class="kr">do</span>
+    <span class="n">a</span> <span class="o">&lt;-</span> <span class="n">readLn</span>
+    <span class="n">hPutStr</span> <span class="n">stdout</span> <span class="n">a</span>
+</code></pre></div></div>
+
+<p>parece simple, pero y sin la do-notation, como quedaria?</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">main</span> <span class="n">readLn</span> <span class="o">&gt;&gt;=</span> <span class="p">(</span><span class="nf">\</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">hPutStr</span> <span class="n">stdout</span> <span class="n">a</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>tanto » com »= son el binding operator, y este permite que usemos en la proxima accion el resultado del anterior. Esto se parece bastante a lo que vimos la clase pasada,no? Veamos un ejemplo mas para que no queden dudas</p>
+
+<p>Ahora queremos que de acuerdo a un handle agreguemos un texto antes de leer una linea, o sea un append de una linea antes, para eso arme esta funcion <code class="highlighter-rouge">prepend</code></p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">preprend</span> <span class="o">::</span> <span class="kt">Handle</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="kt">String</span>
+<span class="n">prepend</span> <span class="n">h</span> <span class="o">=</span> 
+    <span class="n">s</span> <span class="o">&lt;-</span> <span class="n">hGetLine</span> <span class="n">h</span>
+    <span class="n">hPutStr</span> <span class="n">h</span> <span class="p">(</span><span class="s">"Linea de prepend antes de la linea leida del handle."</span><span class="p">)</span>
+    <span class="n">return</span> <span class="n">s</span>
+</code></pre></div></div>
+
+<p>Esto se puede ver en el ejemplo de <code class="highlighter-rouge">SimpleIO.hs</code> y lo que hace es agregar al handle esa linea antes de devolver la linea leida al control. Pareceria muy normal ver ese return ahi, pero en realidad la firma es IO String, por lo que la firma se estaria cumpliendo. Lo que pareceria algo que es del lenguaje, en realidad es una funcion mas, y esta es su firma</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">return</span> <span class="o">::</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="n">a</span>
+</code></pre></div></div>
+
+<p>Entonces esta caja IO, puede usar return y binding…. Todo pareceria indicar que es en realidad una monada.</p>
+
+<p>Si esto les parece bastante raro pueden ver o preguntarnos sobre que es una monada o ver el material de la clase anterior. En otro caso continuemos.</p>
+
+<p>Sobre el efecto de lado, no solamente lo vamos a tener del lado de I/O, a veces queremos por x razones tener una variable mutable, y hasta ahora no podiamos tenerlo en haskell, que podemos hacer ahora que sabemos que IO nos permite encapsular algo que contiene un valor que puede ser modificado con efecto de lado?</p>
+
+<p>En este caso seria extenderlo…</p>
+
+<p>Por eso estaremos usando lo que nos permite manejar una referencia a algo mutable que es <code class="highlighter-rouge">IORef</code></p>
+
+<p>Y veremos un ejemplo simple que es el de tener un contador… nada muy elaborado, pero es nuestro ejemplo mas simple que ya vimos y que nos permitira explicar bien que es un IORef ademas de una monada.</p>
+
+<p>bien para esto podemos usar un tipo creado o tan solo nuestro contador mutable puede ser un simple <code class="highlighter-rouge">IORef Int</code> que podremos crear con <code class="highlighter-rouge">newIORef x</code> donde x es un valor, por lo que lo inicializaremos con un valor entero, despues de eso tan solo usando las funciones que tenemos para escribir y leer un <code class="highlighter-rouge">IORef</code> de la misma manera que lo haciamos con un <code class="highlighter-rouge">IO</code>, que son</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">readIORef</span> <span class="o">::</span> <span class="kt">IORef</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="n">a</span>
+<span class="n">writeIORef</span> <span class="o">::</span> <span class="kt">IORef</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="nb">()</span>
+</code></pre></div></div>
+
+<p>vamos a poder ahora modelar nuestra funcion que nos de el sucesor de nuestro contador</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">incRef</span> <span class="o">::</span> <span class="kt">IORef</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="nb">()</span>
+<span class="n">incRef</span> <span class="n">var</span> <span class="o">=</span> <span class="kr">do</span>
+    <span class="n">val</span> <span class="o">&lt;-</span> <span class="n">readIORef</span> <span class="n">var</span>
+    <span class="n">writeIORef</span> <span class="n">var</span> <span class="p">(</span><span class="n">val</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Interesante. Ahora siempre que usemos esta funcion, pasandole un IORef que contenga un Int, va a extraer el valor, y de ahi escribir este IORef con el valor incrementado en 1</p>
+
+<p>Lo ultimo para mencionar es que IORef nos permite modelar ahora variables mutables, y puede verse como un puntero a una posicion de memoria mutable.</p>
+
+<p>Sigamos… Veamos algo de concurrencia ahora..</p>
+
+<h3 id="introduccion-a-la-concurrencia-con-fork">Introduccion a la concurrencia con Fork</h3>
+
+<p>Vamos a utilizar la funcion <code class="highlighter-rouge">forkIO</code> que tiene la siguiente firma</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">forkIO</span> <span class="o">::</span> <span class="kt">IO</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="kt">ThreadId</span>
+</code></pre></div></div>
+
+<p>que nos va a permitir forkear el thread actual en uno nuevo y que se ejecuten varias cosas de manera concurrente. veamos un ejemplo simple en <code class="highlighter-rouge">fork.hs</code></p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">import</span> <span class="nn">System.IO</span>
+<span class="kr">import</span> <span class="nn">Control.Concurrent</span>
+
+<span class="n">main</span> <span class="o">::</span> <span class="kt">IO</span> <span class="nb">()</span>
+<span class="n">main</span> <span class="o">=</span> <span class="kr">do</span> 
+    <span class="n">forkIO</span> <span class="p">(</span><span class="n">hPutStr</span> <span class="n">stdout</span> <span class="s">"Hola"</span><span class="p">)</span>
+    <span class="n">hPutStr</span> <span class="n">stdout</span> <span class="s">" mundo</span><span class="se">\n</span><span class="s">"</span>
+</code></pre></div></div>
+
+<p>Ahora bien al forkear el thread, el segundo se va a ejecutar y como ambos ejecutan <code class="highlighter-rouge">hPutStr stdout</code>, ahora es solo no deterministico cual de las dos sentencias se va a ejecutar primero, o sea cual de las dos “ganaria” por ejecutarse primero, y lo mas importante, si necesitaramos que primero se ejecute uno y despues la otra sentencia porque nos importa el orden, esto no podriamos ya garantizarlo. Por otro lado si esto fuese una variable y no un handle de I/O, podriamos estar pisando un valor mutable, modelado con <code class="highlighter-rouge">IORef</code>, en un thread mientras que en otro se este utilizando, por lo que ya no estariamos garantizando la atomicidad de mas de una operacion!</p>
+
+<p>Para esto entra en juego un mecanismo que nos va a ayudar a manejar el estado concurrente, modelado con variables mutables, entre distintos threads sobre un mismo estado un mecanismo llamado STM.</p>
+
+<p>Pueden ver mas informacion de IO <a href="https://www.haskell.org/tutorial/io.html">aqui</a></p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="footer">
+    <div class="columns small-12 medium-12 large-12">
+        © 2020 - IASC
+    </div>
+</div>
+<!-- jQuery CDN - Slim version (=without AJAX) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<!-- Popper.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+        integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+<!-- Lunr JS Search -->
+<!-- <script src="https://unpkg.com/lunr/lunr.js"></script> -->
+<script src="https://unpkg.com/lunr@1.0/lunr.js"></script>
+<script src="/iasc-book//js/search.js"></script>
+
+
+<!--This part will enable the circle button to show/hide the right bar-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('.sidebar').toggleClass('sidebar-inactive');
+            $(this).toggleClass('active');
+        });
+    });
+</script>
+
+
+</body>
+
+</html>

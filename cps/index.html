@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>IASC Book</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link rel="stylesheet" href="/iasc-book/css/style.css">
+    <link rel="stylesheet" href="/iasc-book/css/blockquote.css">
+    <link rel="stylesheet" href="/iasc-book/css/syntax.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <!-- Sidebar Holder -->
+<nav class="sidebar">
+    <div class="sidebar-header">
+        <a href="/iasc-book">
+            <h3 class="title">IASC Notes</h3>
+        </a>
+    </div>
+
+    <ul class="list-unstyled components">
+        <p>Temas</p>
+        <li>
+            <a href="/iasc-book/introduccion">Intro</a>
+        </li>
+        <li>
+            <a href="/iasc-book/cps">CPS</a>
+        </li>
+        <li>
+            <a href="/iasc-book/coroutines">Corrutinas</a>
+        </li>
+        <li>
+            <a href="#actoresSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Actores</a>
+            <ul class="collapse list-unstyled" id="actoresSubmenu">
+                <li>
+                    <a href="/iasc-book/actores_intro">Introduccion Actores</a>
+                </li>
+                <li>
+                    <a href="/iasc-book/otp">Elixir OTP</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#stmSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Memoria
+                Transaccional</a>
+            <ul class="collapse list-unstyled" id="stmSubmenu">
+                <li>
+                    <a href="/iasc-book/efecto_lado_haskell">Efectos de lado en Haskell</a>
+                </li>
+                <li>
+                    <a href="/iasc-book/stm">STM</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#distriSubmenu" data-toggle="collapse" aria-expanded="false"
+               class="dropdown-toggle">Distribucion</a>
+            <ul class="collapse list-unstyled" id="distriSubmenu">
+                <li>
+                    <a href="/iasc-book/distribucion">Introduccion a distribucion</a>
+                </li>
+                <li>
+                    <a href="/iasc-book/cap">Notas sobre CAP</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="sidebar-header">
+        <form action="/iasc-book/search" method="get">
+            <input type="text" class="search-leftbar" id="search_box" name="query">
+            <input type="submit" value="Buscar">
+        </form>
+    </div>
+</nav>
+
+    <div class="container header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+    <button type="button" id="sidebarCollapse" class="btn btn-info">
+        <i class="fa fa-align-justify"></i> <span>toggle sidebar</span>
+    </button>
+    <!--<a class="navbar-brand" href="#">Navbar</a> -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/iasc-book">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link navbar-button" href="http://arquitecturas-concurrentes.github.io/">IASC</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+        <div class="titulo-heading">
+    <div class="container-background">
+        <div class="titulo">
+            <h3 class="Title">
+                CPS
+            </h3>
+            <br>
+            <h4>
+                Introduccion a CPS
+            </h4>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+
+            <div class="inner-content col-sm-8 col-md-10">
+                <h1 id="introduccion">Introduccion</h1>
+
+<p>Empecemos de a poco y por algo muy simple: una función que incrementa en una unidad a su argumento, la función succesor.</p>
+
+<blockquote>
+  <p>Nota: cuando decimos función lo decimos en el sentido estricto de una computación que toma un valor y devuelve otro, sin tener ningún tipo de efecto
+En JavaScript, su código se ve como el siguiente:</p>
+</blockquote>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">succesor</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Usar esta función no tiene mucho misterio:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">i0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">i1</span> <span class="o">=</span> <span class="nx">succesor</span><span class="p">(</span><span class="nx">i0</span><span class="p">);</span>
+<span class="err">…</span><span class="nx">etc</span><span class="err">…</span>
+</code></pre></div></div>
+
+<p>La función succesor está escrita en lo que se conoce como estilo directo: los resultados de la misma (en este caso, su entrada más uno) se obtienen a partir de su retorno.</p>
+
+<p>Hasta acá nada extraño. Hagamos ahora un salto conceptual: otra forma posible de escribir este código, es que el resultado se obtenga a partir de un callback.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">succesor</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+ <span class="nx">callback</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>¿Y cómo la usamos?</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">i0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="nx">succesor</span><span class="p">(</span><span class="nx">i0</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">resultado</span><span class="p">)</span> <span class="p">{</span>
+ <span class="kd">var</span> <span class="nx">i1</span> <span class="o">=</span> <span class="nx">resultado</span><span class="p">;</span>
+ <span class="c1">//...etc...</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>¡Momento! ¿Qué fue eso? Si bien puede verse un poco perturbador al principio, este código es totalmente equivalente al anterior: cuando se aplica la función succesor, calcula su siguiente, y se lo pasa al callback, que opera con el mismo normalmente.</p>
+
+<blockquote>
+  <p>Si te estás preguntando hacia dónde vamos y qué tiene todo esto que ver con la concurrencia, ¡danos uno rato! Prometemos que pronto todo tendrá sentido.</p>
+</blockquote>
+
+<p>A este callback se lo llama continuación. Porque… ¡es lo que que se ejecuta a continuación! O en inglés: continuation.
+¿Qué significa esto? Que las funciones que toman continuaciones, no solo ahora saben lo que tienen que hacer, sino también cuándo se ejecutará lo que siga. Por eso decimos que una función escrita de este forma tiene, además de la lógica de negocio, control de flujo (o simplemente llamado control).</p>
+
+<p>Peeeero, para que esto sea realmente posible, tenemos que tomar ciertas precauciones, y entender que al trabajar de esta forma, el resultado sólo se puede obtener dentro de la continuación.
+Por tanto, el siguiente es un code smell:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var i0 = 0;
+var i1;
+succesor(i0, function(resultado) {
+  i1 = resultado;
+});
+//..resto...
+</code></pre></div></div>
+
+<p>Aquí estamos capturando el resultado de successor a través de la continuación, asumiendo que el código se ejecutará inmediatamente y que estará disponible en la línea 6.</p>
+
+<p>Pero si es realmente successor quien tiene control sobre cuándo y cómo se ejecuta la continuación, no podemos garantizar esto dado que no sabemos cuándo se va a ejecutar la continuación.</p>
+
+<p>¿Esto significa que el código anterior no funciona? No, pero tenemos que entender que estamos rompiendo el modelo de continuación, al no permitir que sea la función successor la que determine cuándo y cómo seguir. Y eso puede ser una fuente de bugs.</p>
+
+<h3 id="consecuencias">Consecuencias</h3>
+
+<p>En oposición al estilo directo, caracterizado por la obtención de resultados mediante retornos, surge así el estilo de paso de continuaciones (CPS, por sus siglas en inglés). Es decir, cuando tenemos una función que toma una continuación y efectivamente colocamos todo el código que opera con el resultado dentro de la misma, tenemos una función CPS.</p>
+
+<p>El CPS es especial porque es fácil introducirlo, pero imposible salir de él, al menos no sin introducir bugs y potenciales problemas en el sistema.</p>
+
+<p>Retomando las ideas de nuestro primer episodio, esto es una propiedad interesante: una vez impuesta la arquitectura, no tenemos opción de escapar de ella, lo que nos resta en flexibilidad, pero nos fuerza a ser consistentes.</p>
+
+<p>Ejemplo: si ahora queremos implementar una función que incrementa el doble de un número, usando nuestro successor CPS, estaríamos tentados a escribir esto:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">incrementarDoble</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">i0</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nx">i</span><span class="p">;</span>
+  <span class="nx">succesor</span><span class="p">(</span><span class="nx">i0</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">resultado</span><span class="p">)</span> <span class="p">{</span>
+   <span class="kd">var</span> <span class="nx">i1</span> <span class="o">=</span> <span class="nx">resultado</span><span class="p">;</span>
+   <span class="p">???</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Y ahí vemos el problema: incrementarDoble debe retornar i1, ¡pero no puede hacerlo, porque no hay garantías de cuando se va a ejecutar la continuación, ni cuantas veces!
+Por ello, la única alternativa válida (sin basarse en los detalles de implementación de successor, claro), es convertir a incrementarDoble en CPS también:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">incrementarDoble</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">cont</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">i0</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nx">i</span><span class="p">;</span>
+  <span class="nx">succesor</span><span class="p">(</span><span class="nx">i0</span><span class="p">,</span> <span class="nx">cont</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Moraleja: una vez que introducimos CPS, su uso sólo puede extenderse.</p>
+
+<blockquote>
+  <p>Esto no significa que no podamos tener computaciones no CPS. Por ejemplo, la multiplicación podría ser extraída como una función en estilo directo. Desarrollaremos esta idea arquitectural mejor en próximos episodios cuando ataquemos el mundo monádico.</p>
+</blockquote>
+
+<h3 id="para-qué-cps">¿Para qué CPS?</h3>
+
+<p>Resulta bastante evidente que razonar sobre CPS es más complejo que en el estilo directo. Entonces, ¿por qué habríamos de adoptarlo?</p>
+
+<p>CPS, al otorgarle a la función no sólo capacidad de cómputo sino de control, permite hacer cosas muy poderosas. En los ejemplos anteriores no lo aprovechamos, porque la computación succesor puede ser modelada con una función con un sólo resultado posible:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kd">function</span> <span class="nx">succesor</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">cont</span><span class="p">)</span> <span class="p">{</span>
+ <span class="nx">cont</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Pero sin embargo, podríamos haber aplicado a la función cont cero (1) o muchas veces (2), podríamos haber recibido múltiples continuaciones y ejecutar alguna de ellas (3), o podríamos haberlas ejecutado en otro momento (4). CPS nos permite, entones, implementar 4 tipos de computaciones: con falla, no determinísticas, con excepciones y asincrónicas.</p>
+
+<blockquote>
+  <p>Recordar estos tipos de continuaciones, volverán en episodios futuros</p>
+</blockquote>
+
+<h3 id="falla">Falla</h3>
+
+<p>Con CPS podemos codificar computaciones que pueden no tener resultado (los matemáticos las llaman funciones parciales). Por ejemplo, la división es una función parcial que no tiene un resultado cuando su segundo argumento es cero, por lo que podemos definir una función inversa CPS de la siguiente forma:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">inversa</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">cont</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">!==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">cont</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="nx">x</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Si ahora aplicamos a inversa con el valor 2, tendremos como resultado 0.5. Pero si la aplicamos con 0, no tendremos resultado. Esto no es lo mismo que no devolver nada en una función en estilo directo (o devolver null): en una función CPS que puede fallar, si no hay resultado, el programa continuación NO continúa; el flujo de ejecución se detiene.</p>
+
+<h3 id="no-determinismo">No determinismo.</h3>
+
+<p>Hay computaciones que pueden arrojar cero o más resultados, son la generalización de la función: la relación. Por ejemplo, la pregunta ¿quien es hijo de Vito Corleone? (notá el singular) tiene múltiples respuestas: Sonny, Michel, Connie, etc.
+Esta es la base del paradigma lógico: relaciones que pueden generar ningún resultado, uno, o varios.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">hijoDeVito</span><span class="p">(</span><span class="nx">cont</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">cont</span><span class="p">(</span><span class="s2">"sonny"</span><span class="p">);</span>
+  <span class="nx">cont</span><span class="p">(</span><span class="s2">"michel"</span><span class="p">);</span>
+  <span class="nx">cont</span><span class="p">(</span><span class="s2">"connie"</span><span class="p">);</span>
+  <span class="nx">cont</span><span class="p">(</span><span class="s2">"freddo"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Se observa fácilmente que logramos las múltiples respuestas mediante la aplicación reiterada de la continuación: el mismo programa está continuando múltiples veces con argumento diferentes.</p>
+
+<p>CPS no nos da una restriccion sobre la cantidad de veces a las que se deba llamar la continuacion que recibe. Por lo que vamos a poder aplicar la continuacion 0 o múltiples veces.</p>
+
+<p>Tal vez el ejemplo de recien no fue tan convincente…. bueno tenemos el ejemplo mas basico que podemos encontrar en la documentacion de Node.js:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'http'</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">hostname</span> <span class="o">=</span> <span class="s1">'127.0.0.1'</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">port</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">((</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">setHeader</span><span class="p">(</span><span class="s1">'Content-Type'</span><span class="p">,</span> <span class="s1">'text/plain'</span><span class="p">);</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">'Hello World'</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">server</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">,</span> <span class="nx">hostname</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Server running at http://</span><span class="p">${</span><span class="nx">hostname</span><span class="p">}</span><span class="s2">:</span><span class="p">${</span><span class="nx">port</span><span class="p">}</span><span class="s2">/`</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+<blockquote>
+  <p>Shamelessly taken from <a href="https://nodejs.org/ca/docs/guides/getting-started-guide/">here</a></p>
+</blockquote>
+
+<p>Este pequeño ejemplo nos muestra claramente el no determinismo, porque es un servidor que podemos levantar, y nunca vamos a saber cuantos request nos van a llegar al servidor durante el tiempo que este levantado, tal vez recibimos 28392389 requests, tal vez 0.</p>
+
+<h3 id="excepciones">Excepciones</h3>
+
+<p>Todos conocemos las excepciones. Estas nos dan dos flujos de ejecución: uno de éxito y uno de fracaso, y en ambos hay resultados: el resultado normal del programa o el error en cuestión. Y esto lo podemos lograr pasando dos continaciones: la que contiene el flujo normal, y la que contiene el flujo de error.</p>
+
+<h3 id="computaciones-asincrónicas">Computaciones asincrónicas.</h3>
+
+<p>¡Éstas son las que más nos interesan! Operaciones que quizás no se ejecuten inmediatamente, sino en un momento posterior. Más sobre esto, en breve.</p>
+
+<h3 id="cps-y-callback-hell">CPS, ¿y Callback Hell?</h3>
+
+<p>Un pequeño paréntesis: se suele achacar al uso de CPS la inevitable caída en el callback hell. Por ejemplo:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">cuentaLoca</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">cont</span><span class="p">)</span> <span class="p">{</span> 
+  <span class="nx">siguiente</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">y</span><span class="p">){</span>
+    <span class="nx">inversa</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">z</span><span class="p">){</span>
+      <span class="nx">duplicar</span><span class="p">(</span><span class="nx">z</span><span class="p">,</span> <span class="nx">cont</span><span class="p">);</span>
+    <span class="p">})</span>
+  <span class="p">})</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>Como se observa, algo tan simple en estilo directo como</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">duplicar</span><span class="p">(</span><span class="nx">inversa</span><span class="p">(</span><span class="nx">siguiente</span><span class="p">(</span><span class="nx">x</span><span class="p">)))</span> 
+</code></pre></div></div>
+
+<p>se convierte en una compleja estructura de continuaciones anidadas.
+¿Podríamos delegar esto de mejor forma? Si analizamos cómo queda expresada esta computación en estilo directo, podemos ver que duplicar la inversa del siguiente, a fin de cuentas, está describiendo una composición de funciones: al resultado de aplicar una función se le pasa a la entrada la otra.
+Obviamente, no es la misma composición de funciones que conocemos en estilo directo: es una composición CPS. Y entender esto nos permite definir una función componer, que haga justamente esto:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">function</span> <span class="nx">componer</span><span class="p">(</span><span class="nx">f</span><span class="p">,</span> <span class="nx">g</span><span class="p">)</span> <span class="p">{</span>
+     <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">cont</span><span class="p">)</span> <span class="p">{</span>
+         <span class="nx">g</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">y</span><span class="p">){</span>
+             <span class="nx">f</span><span class="p">(</span><span class="nx">y</span><span class="p">,</span> <span class="nx">cont</span><span class="p">);</span>
+         <span class="p">})</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+</code></pre></div></div>
+
+<p>y una vez que tenemos eso podemos ya utilizarla así:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">cuentaLoca</span> <span class="o">=</span> <span class="nx">componer</span><span class="p">(</span><span class="nx">duplicar</span><span class="p">,</span> <span class="nx">componer</span><span class="p">(</span><span class="nx">inversa</span><span class="p">,</span> <span class="nx">siguiente</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>Y si le damos una vuelta de tuerca más, podemos observar que estamos ante la estructura de aplicación de un fold, y definir una función pipeline que componga todas las funciones cps</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">function</span> <span class="nx">pipeline</span><span class="p">(</span><span class="nx">fs</span><span class="p">)</span> <span class="p">{</span>
+     <span class="k">return</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="nx">componer</span><span class="p">);</span>
+ <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Con este pipeline podemos reutilizar el componer aplicandole un fold sobre un array y de esta manera que se puedan componer todas las funciones que tenemos sin caer de nuevo en el Callback Hell:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">cuentaLoca</span> <span class="o">=</span> <span class="nx">pipeline</span><span class="p">([</span><span class="nx">duplicar</span><span class="p">,</span> <span class="nx">inversa</span><span class="p">,</span> <span class="nx">siguiente</span><span class="p">]);</span>
+</code></pre></div></div>
+
+<p>Y así vemos como eliminar el callback hell, aun con CPS, es posible.
+Moraleja: no es culpa del CPS, es culpa nuestra al no delegar convenientemente.</p>
+
+<h3 id="conclusiones">Conclusiones</h3>
+
+<ul>
+  <li>CPS nos da gran poder, pero es difícil de manejar adecuadamente</li>
+  <li>CPS nos lleva, si no tenemos cuidado al callback hell. Sin embargo, no es inherente a CPS, sino que es consecuencia de una mala delegación. Es posible resolverlo si se delega apropiadamente y aplicando los conceptos de programación funcional de orden superior y creando combinadores apropiados</li>
+  <li>CPS nos permite implementar computaciones asincrónicas. NodeJS emplea CPS para soportarlas.</li>
+  <li>El uso de CPS en NodeJS: pésimo manejo de errores y ausencia de abstracciones para hacerlo mas tratable. Por eso es que la comunidad centró su atención en otra forma de estructurar programas con influencias funcionales: las promesas (promises).</li>
+</ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="footer">
+    <div class="columns small-12 medium-12 large-12">
+        © 2020 - IASC
+    </div>
+</div>
+<!-- jQuery CDN - Slim version (=without AJAX) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<!-- Popper.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+        integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+<!-- Lunr JS Search -->
+<!-- <script src="https://unpkg.com/lunr/lunr.js"></script> -->
+<script src="https://unpkg.com/lunr@1.0/lunr.js"></script>
+<script src="/iasc-book//js/search.js"></script>
+
+
+<!--This part will enable the circle button to show/hide the right bar-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('.sidebar').toggleClass('sidebar-inactive');
+            $(this).toggleClass('active');
+        });
+    });
+</script>
+
+
+</body>
+
+</html>

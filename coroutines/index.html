@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>IASC Book</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link rel="stylesheet" href="/iasc-book/css/style.css">
+    <link rel="stylesheet" href="/iasc-book/css/blockquote.css">
+    <link rel="stylesheet" href="/iasc-book/css/syntax.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <!-- Sidebar Holder -->
+<nav class="sidebar">
+    <div class="sidebar-header">
+        <a href="/iasc-book">
+            <h3 class="title">IASC Notes</h3>
+        </a>
+    </div>
+
+    <ul class="list-unstyled components">
+        <p>Temas</p>
+        <li>
+            <a href="/iasc-book/introduccion">Intro</a>
+        </li>
+        <li>
+            <a href="/iasc-book/cps">CPS</a>
+        </li>
+        <li>
+            <a href="/iasc-book/coroutines">Corrutinas</a>
+        </li>
+        <li>
+            <a href="#actoresSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Actores</a>
+            <ul class="collapse list-unstyled" id="actoresSubmenu">
+                <li>
+                    <a href="/iasc-book/actores_intro">Introduccion Actores</a>
+                </li>
+                <li>
+                    <a href="/iasc-book/otp">Elixir OTP</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#stmSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Memoria
+                Transaccional</a>
+            <ul class="collapse list-unstyled" id="stmSubmenu">
+                <li>
+                    <a href="/iasc-book/efecto_lado_haskell">Efectos de lado en Haskell</a>
+                </li>
+                <li>
+                    <a href="/iasc-book/stm">STM</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#distriSubmenu" data-toggle="collapse" aria-expanded="false"
+               class="dropdown-toggle">Distribucion</a>
+            <ul class="collapse list-unstyled" id="distriSubmenu">
+                <li>
+                    <a href="/iasc-book/distribucion">Introduccion a distribucion</a>
+                </li>
+                <li>
+                    <a href="/iasc-book/cap">Notas sobre CAP</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="sidebar-header">
+        <form action="/iasc-book/search" method="get">
+            <input type="text" class="search-leftbar" id="search_box" name="query">
+            <input type="submit" value="Buscar">
+        </form>
+    </div>
+</nav>
+
+    <div class="container header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+    <button type="button" id="sidebarCollapse" class="btn btn-info">
+        <i class="fa fa-align-justify"></i> <span>toggle sidebar</span>
+    </button>
+    <!--<a class="navbar-brand" href="#">Navbar</a> -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/iasc-book">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link navbar-button" href="http://arquitecturas-concurrentes.github.io/">IASC</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+        <div class="titulo-heading">
+    <div class="container-background">
+        <div class="titulo">
+            <h3 class="Title">
+                Corrutinas (coroutines)
+            </h3>
+            <br>
+            <h4>
+                Introduccion a las corrutinas
+            </h4>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+
+            <div class="inner-content col-sm-8 col-md-10">
+                <h2 id="anteriormente-en-arquitecturas-concurrentes">Anteriormente… en Arquitecturas Concurrentes</h2>
+
+<p>Hasta ahora trabajamos sobre un modelo de concurrencia basado en un <em>event loop</em>. En este esquema, cada evento se procesa completamente antes de pasar a la ejecución del próximo, y todo esto ocurre en un único thread.</p>
+
+<p>Una ventaja que esto implica es que cuando una función se está ejecutando, tenemos la seguridad de que no va a ser interrumpida por el planificador hasta que termine, lo cual evita los problemas de concurrencia tradicionales que habíamos visto al usar <em>threads</em> y <em>locks</em>. Y esto lo logramos gracias a que el event loop le provee un <em>orden</em> a la ejecución concurrente; la serializa.</p>
+
+<p>Las corrutinas nos permiten lograr algo similar, sin utilizar (necesariamente) un event loop.</p>
+
+<blockquote>
+  <p>Nota al margen: las corrutinas no son nada nuevo. C++, Smalltalk, Erlang y muchos más (¡hasta PHP!) las tienen desde hace mucho. Pero recientemente han conseguido cierta notoriedad en la industria por su uso en lenguajes como Go, Kotlin y Python.</p>
+</blockquote>
+
+<h2 id="qué-es-una-corrutina">¿Qué es una corrutina?</h2>
+
+<p>Una corrutina es similar a una subrutina tradicional (piensen en las funciones/procedimientos que vieron en Algoritmos), pero con la diferencia de que, mientras que la salida de una subrutina pone fin a su ejecución, una corrutina puede además <strong>suspenderse</strong>, cediendo el control a otra hasta que se le indique que debe <strong>retomar</strong> su ejecución.</p>
+
+<p>Para entender mejor a qué nos referimos con esto, veamos un ejemplo en Python, uno de los lenguajes que cuenta con soporte para corrutinas.</p>
+
+<h4 id="sin-corrutinas">Sin corrutinas</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">io</span><span class="p">():</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'1'</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'2'</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'3'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">tareas</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">tarea</span> <span class="ow">in</span> <span class="n">tareas</span><span class="p">:</span>
+        <span class="n">io</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">tiempo</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+    <span class="n">main</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+    <span class="n">tiempo2</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">tiempo</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">'Tiempo total: {tiempo2:0.2f} segundos'</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Este código imprime:</p>
+<blockquote>
+  <p>1
+2
+3
+1
+2
+3
+1
+2
+3
+Tiempo total: 9.01 segundos</p>
+</blockquote>
+
+<p>Podemos ver que cada ciclo de IOs de cada tarea se ejecuta y termina una atrás de la otra. ¿Qué pasa si agregamos corrutinas?</p>
+
+<h4 id="con-corrutinas">Con corrutinas</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="n">async</span> <span class="k">def</span> <span class="nf">io</span><span class="p">():</span>
+    <span class="c">#Hay un async adelante del def, asi que soy una corrutina :D</span>
+    <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">io</span><span class="p">(),</span> <span class="n">io</span><span class="p">(),</span> <span class="n">io</span><span class="p">())</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">tiempo</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+    <span class="n">tiempo2</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">tiempo</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">'Tiempo total: {tiempo2:0.2f} segundos'</span><span class="p">)</span>
+</code></pre></div></div>
+<blockquote>
+  <p>1
+1
+1
+2
+2
+2
+3
+3
+3
+Tiempo total: 3.00 segundos</p>
+</blockquote>
+
+<p>La diferencia en los tiempos es notable. También observamos que el orden de ejecución fue distinto en este caso.</p>
+
+<h2 id="cómo-funcionan">¿Cómo funcionan?</h2>
+
+<p>Cuando usamos corrutinas, no hay intervención del SO. Hay un sólo proceso, un sólo thread. Entonces… ¿qué es lo que esta pasando?</p>
+
+<p>Lo que ocurre es que las corrutinas liberan la CPU cuando están en “tiempo de espera” (<code class="highlighter-rouge">await</code>), permitiendo que otras puedan usar la CPU.</p>
+
+<p>Podemos decir que es como una simultánea de ajedrez, en donde una persona juega contra dos o más. Hace un movimiento y no se queda esperando la respuesta del oponente en ese tablero, sino que pasa al siguiente y realiza un movimiento ahí. De esa forma, trata las partidas (tareas) de forma concurrente, lo que resulta en que se terminen en menos tiempo.</p>
+
+<p><img src="https://i.ytimg.com/vi/Hp6827K1pFE/hqdefault.jpg" alt="" /></p>
+
+<p>Seguro están pensando:</p>
+<blockquote>
+  <p>Un momento… esto se parece a un thread</p>
+</blockquote>
+
+<p>Lo que nos lleva a nuestra próxima sección…</p>
+
+<h2 id="corrutinas-vs-threads">Corrutinas vs Threads</h2>
+
+<p>La diferencia fundamental entre corrutinas y threads se da en la forma en la que se lleva a cabo la multitarea.</p>
+
+<p>Los threads, como ya vimos, manejan un esquema de <strong>multitarea apropiativa</strong> (en inglés, <em>preemptive multitasking</em>), donde el planificador es el encargado de asignar intervalos de uso de CPU a los threads que se están ejecutando, desalojándolos cuando este termina.</p>
+
+<p>Las corrutinas, en contraposición, permiten tener <strong>multitarea cooperativa</strong> (<em>cooperative/non-preemptive multitasking</em>). Esto significa que el cambio de contexto no es controlado por el planificador, sino que cada corrutina es la encargada de ceder el control cuando está inactiva o bloqueda.</p>
+
+<p>Otra diferencia, presente al menos en la visión “tradicional” de corrutinas, es que <strong>las corrutinas proveen concurrencia pero no paralelismo</strong>. De esta forma, evitan problemas de concurrencia, ya que corren en un <strong>único contexto de ejecución</strong>, y además <strong>controlan cuándo se suspenden</strong> (en vez de que el planificador las interrumpa en puntos arbitrarios).</p>
+
+<p>Una ventaja más que las corrutinas tienen sobre los hilos es que su funcionamiento no involucra llamadas al sistema bloqueantes para su creación ni para el cambio de contexto, ya que todo se maneja al nivel de la aplicación.</p>
+
+<p><a href="https://www.baeldung.com/kotlin-threads-coroutines">Interesante comparación de cuando usar corrutinas y cuando usar threads en Kotlin</a></p>
+
+<h2 id="cómo-se-declaran-y-ejecutan-en-python">¿Cómo se declaran y ejecutan en Python?</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="k">def</span> <span class="nf">print_loco</span><span class="p">(</span><span class="n">algo</span><span class="p">):</span>
+  <span class="k">return</span> <span class="k">print</span><span class="p">(</span><span class="n">algo</span><span class="p">,</span><span class="s">'loco'</span><span class="p">)</span>
+
+<span class="n">async</span> <span class="k">def</span> <span class="nf">print_re_loco</span><span class="p">(</span><span class="n">algo</span><span class="p">):</span>
+  <span class="k">return</span> <span class="k">print</span><span class="p">(</span><span class="n">algo</span><span class="p">,</span><span class="s">'loco'</span><span class="p">)</span>
+</code></pre></div></div>
+<blockquote>
+  <p>print_loco</p>
+</blockquote>
+
+<blockquote>
+  <p>&lt;function print_loco at 0x7fe7aa5a9310&gt;</p>
+</blockquote>
+
+<blockquote>
+  <p>print_re_loco</p>
+</blockquote>
+
+<blockquote>
+  <p>&lt;function print_re_loco at 0x7fe7aa5a93a0&gt;</p>
+</blockquote>
+
+<p>Las dos funciones lucen similares, la diferencia vamos a notar cuando las usamos:</p>
+
+<blockquote>
+  <p>print_loco(‘bla’)</p>
+</blockquote>
+
+<blockquote>
+  <p>bla loco</p>
+</blockquote>
+
+<p>Nada fuera de lo esperado.</p>
+
+<blockquote>
+  <p>print_re_loco(‘algo’)</p>
+</blockquote>
+
+<blockquote>
+  <p>&lt;coroutine object print_re_loco at 0x7fe7aa5e8640&gt;</p>
+</blockquote>
+
+<p>Nos retorna un objeto “corrutina” que por defecto no se va a planificar. Entonces, ¿cómo hago que se ejecute? Bueno, hay tres formas distintas para hacer eso.</p>
+
+<p><strong>1-</strong> Usando la función <code class="highlighter-rouge">run</code> del módulo <code class="highlighter-rouge">asyncio</code></p>
+<blockquote>
+  <p>coro = print_re_loco(‘algo’)</p>
+</blockquote>
+
+<blockquote>
+  <p>asyncio.run(coro)</p>
+</blockquote>
+
+<blockquote>
+  <p>algo loco</p>
+</blockquote>
+
+<p><strong>2-</strong> Usando <code class="highlighter-rouge">await</code> en una corrutina</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="n">async</span> <span class="k">def</span> <span class="nf">say_after</span><span class="p">(</span><span class="n">delay</span><span class="p">,</span> <span class="n">what</span><span class="p">):</span>
+  <span class="n">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">what</span><span class="p">)</span>
+
+<span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">await</span> <span class="n">say_after</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">'hello'</span><span class="p">)</span>
+  <span class="n">await</span> <span class="n">say_after</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s">'world'</span><span class="p">)</span>
+</code></pre></div></div>
+<blockquote>
+  <p>asyncio.run(main())</p>
+</blockquote>
+
+<blockquote>
+  <p>hello</p>
+</blockquote>
+
+<blockquote>
+  <p>world</p>
+</blockquote>
+
+<p><em>Nota: acá usamos <code class="highlighter-rouge">run</code> para ejecutar la corrutina <code class="highlighter-rouge">main</code> y <code class="highlighter-rouge">await</code> para ejecutar las corrutinas <code class="highlighter-rouge">say_after</code>.</em></p>
+
+<p><strong>3-</strong> Con la función <code class="highlighter-rouge">create_task</code> de <code class="highlighter-rouge">asyncio</code>, que ejecuta corrutinas concurrentemente <em>wrappeándolas</em> en <code class="highlighter-rouge">Tasks</code>, usando  por detrás un <strong>event loop</strong> para planificarlas.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="n">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">task1</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">say_after</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">'hello'</span><span class="p">))</span>
+  <span class="n">task2</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">say_after</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s">'world'</span><span class="p">))</span>
+
+  <span class="n">await</span> <span class="n">task1</span>
+  <span class="n">await</span> <span class="n">task2</span>
+</code></pre></div></div>
+
+<p><em>Nota: <code class="highlighter-rouge">create_task</code> envía la corrutina al event loop, permitiendo que corra en segundo plano. <code class="highlighter-rouge">gather</code> hace algo muy parecido, pero podemos decir que es conveniente usarlo cuando nos interesa hacer algo con el resultado de las corrutinas.</em></p>
+
+<h2 id="qué-pasa-si-ejecuto-código-bloqueante-dentro-de-una-corrutina">¿Qué pasa si ejecuto código bloqueante dentro de una corrutina?</h2>
+
+<p>Si observaron con detalle se habrán dado cuenta de que cuando se usa sleep para suspender a la corrutina, se esta usando <code class="highlighter-rouge">asyncio.sleep</code> en lugar de <code class="highlighter-rouge">time.sleep</code>. Esto es porque el segundo es bloqueante. Entonces como ya dedujeron, las operaciones bloqueantes bloquean todo el thread del sistema operativo subyacente.</p>
+
+<p>Pero hay formas de evitarlo :D!, lo que se hace es que correr estas tareas <strong>bloqueantes</strong> y otras que vamos a llamar <strong>CPU-bound-intensive</strong>, sea conveniente ejecutarlas en otro thread. Concretamente en <strong>Python</strong> usando <code class="highlighter-rouge">loop.run_in_executor()</code> <a href="https://docs.python.org/3/library/asyncio-dev.html#running-blocking-code">Running Blocking Code</a></p>
+
+<p><em>Nota: también es posible setear un timeout para que cuando se cumpla, se corte su ejecución <a href="https://docs.python.org/3/library/asyncio-task.html#timeouts">ver timeouts</a> .</em></p>
+
+<h2 id="bonus">Bonus!</h2>
+
+<h3 id="corrutinas-y-generadores">Corrutinas y Generadores</h3>
+
+<p>Si bien ambos pueden ceder múltiples veces, suspender su ejecución y permitir el reingreso en múltiples puntos de entrada, difieren en que las corrutinas tienen la capacidad para controlar dónde continúa la ejecución inmediatamente después de ceder, mientras que los generadores no pueden, estos transfieren el control de nuevo al generador que lo llamo. Es decir, dado que los generadores se utilizan principalmente para simplificar la escritura de iteradores, la declaración de rendimiento en un generador no especifica una rutina para saltar, sino que devuelve un valor a una rutina principal. <a href="https://docs.python.org/3/reference/expressions.html#yieldexpr">Explicación de yield y comparación con corrutinas</a></p>
+
+<blockquote>
+  <p>Esta bien, pero entonces.. ¿qué es un generador?</p>
+</blockquote>
+
+<p><img src="https://i.pinimg.com/originals/1f/77/16/1f77165fb96f852cbda141164e18a04a.jpg" alt="" /></p>
+
+<p>Un <strong>generador</strong> es un tipo especial de subrutina, pensando en teoría de conjuntos, podemos decir que el conjunto generador es un subconjunto de corrutina, por eso a veces son llamados como “semicorutinas”.</p>
+
+<p>Un <strong>iterador</strong> es un objeto que permite al programador recorrer un contenedor (colección de elementos) por ejemplo una lista. Una manera de implementar iteradores es utilizar un <strong>generador</strong>, que puede producir valores para quien lo llama varias veces (en lugar de devolver sólo uno).</p>
+
+<p>A continuación se puede ver un ejemplo de un generador que devuelve los números de Fibonacci:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">fibonacci</span><span class="p">():</span>
+  <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+  <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="k">yield</span> <span class="n">a</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span>
+
+<span class="k">for</span> <span class="n">numero</span> <span class="ow">in</span> <span class="n">fibonacci</span><span class="p">():</span>  <span class="c"># Utilización de generador como iterador</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">numero</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="corrutinas-basadas-en-generadores">Corrutinas basadas en generadores</h3>
+
+<p>Sin embargo, todavía es posible implementar corutinas basadas en generadores, de hecho, hasta Python 2.5 las corrutinas estaban hechas de esta forma, con la ayuda de una rutina de despachador de nivel superior (un trampolín, esencialmente) que pasa el control explícitamente a los generadores secundarios.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">coro</span><span class="p">():</span>
+  <span class="n">hello</span> <span class="o">=</span> <span class="k">yield</span> <span class="s">"Soy una corrutina"</span>
+  <span class="k">yield</span> <span class="n">hello</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">coro</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">", basada en generadores"</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h2 id="links-interesantes">Links interesantes</h2>
+
+<p><a href="https://docs.python.org/3.8/library/asyncio-task.html">Corrutinas en Python</a></p>
+
+<p><a href="https://www.tornadoweb.org/en/stable/">Framework de Python que levanta un server asincronico con corrutinas planificandolas con un event loop</a></p>
+
+<p><a href="http://www.golangpatterns.info/concurrency/coroutines">Corrutinas en Go</a></p>
+
+<p><a href="https://tour.golang.org/concurrency/1">Para jugar con Goroutines</a></p>
+
+<p><a href="https://kotlinlang.org/docs/reference/coroutines/basics.html">Corrutinas en Kotlin</a></p>
+
+<p><a href="https://kotlinlang.org/docs/tutorials/coroutines/async-programming.html">Comparación de técnicas programación asincrónica (threading, callbacks, Promises, corrutinas)</a>. Claramente enfocado para resaltar las ventajas de las corrutinas en Kotlin, pero de todos modos interesante para repasar las técnicas que vimos hasta ahora.</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="footer">
+    <div class="columns small-12 medium-12 large-12">
+        © 2020 - IASC
+    </div>
+</div>
+<!-- jQuery CDN - Slim version (=without AJAX) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<!-- Popper.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+        integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+<!-- Lunr JS Search -->
+<!-- <script src="https://unpkg.com/lunr/lunr.js"></script> -->
+<script src="https://unpkg.com/lunr@1.0/lunr.js"></script>
+<script src="/iasc-book//js/search.js"></script>
+
+
+<!--This part will enable the circle button to show/hide the right bar-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('.sidebar').toggleClass('sidebar-inactive');
+            $(this).toggleClass('active');
+        });
+    });
+</script>
+
+
+</body>
+
+</html>

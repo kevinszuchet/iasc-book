@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>IASC Book</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
+    <link rel="stylesheet" href="/iasc-book/css/style.css">
+    <link rel="stylesheet" href="/iasc-book/css/blockquote.css">
+    <link rel="stylesheet" href="/iasc-book/css/syntax.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <!-- Sidebar Holder -->
+<nav class="sidebar">
+    <div class="sidebar-header">
+        <a href="/iasc-book">
+            <h3 class="title">IASC Notes</h3>
+        </a>
+    </div>
+
+    <ul class="list-unstyled components">
+        <p>Temas</p>
+        <li>
+            <a href="/iasc-book/introduccion">Intro</a>
+        </li>
+        <li>
+            <a href="/iasc-book/cps">CPS</a>
+        </li>
+        <li>
+            <a href="/iasc-book/coroutines">Corrutinas</a>
+        </li>
+        <li>
+            <a href="#actoresSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Actores</a>
+            <ul class="collapse list-unstyled" id="actoresSubmenu">
+                <li>
+                    <a href="/iasc-book/actores_intro">Introduccion Actores</a>
+                </li>
+                <li>
+                    <a href="/iasc-book/otp">Elixir OTP</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#stmSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Memoria
+                Transaccional</a>
+            <ul class="collapse list-unstyled" id="stmSubmenu">
+                <li>
+                    <a href="/iasc-book/efecto_lado_haskell">Efectos de lado en Haskell</a>
+                </li>
+                <li>
+                    <a href="/iasc-book/stm">STM</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#distriSubmenu" data-toggle="collapse" aria-expanded="false"
+               class="dropdown-toggle">Distribucion</a>
+            <ul class="collapse list-unstyled" id="distriSubmenu">
+                <li>
+                    <a href="/iasc-book/distribucion">Introduccion a distribucion</a>
+                </li>
+                <li>
+                    <a href="/iasc-book/cap">Notas sobre CAP</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="sidebar-header">
+        <form action="/iasc-book/search" method="get">
+            <input type="text" class="search-leftbar" id="search_box" name="query">
+            <input type="submit" value="Buscar">
+        </form>
+    </div>
+</nav>
+
+    <div class="container header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+    <button type="button" id="sidebarCollapse" class="btn btn-info">
+        <i class="fa fa-align-justify"></i> <span>toggle sidebar</span>
+    </button>
+    <!--<a class="navbar-brand" href="#">Navbar</a> -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/iasc-book">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link navbar-button" href="http://arquitecturas-concurrentes.github.io/">IASC</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+        <div class="titulo-heading">
+    <div class="container-background">
+        <div class="titulo">
+            <h3 class="Title">
+                STM
+            </h3>
+            <br>
+            <h4>
+                Memoria transaccional en Haskell
+            </h4>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+
+            <div class="inner-content col-sm-8 col-md-10">
+                <h1 id="stm">STM</h1>
+
+<h2 id="introduccion">Introduccion</h2>
+
+<p>Bien ahora que sabemos como modelar una variable que es mutable y que necesitamos funciones para escribir y leer esta variable, para controlar la concurrencia entre threads de este estado habra que hacerlo por medio de un mecanismo de control que es STM.</p>
+
+<p>En el modelo tradicional de programación con threads, cuando compartimos variables o estado entre distintos threads, mantenemos la consistencia del estado utilizando locks, y notificamos a los threads de los cambios usando variables condicionales. Las variables mutables de Haskell implementan una versión mejorada de este esquema, pero sufre de los mismos problemas que en otros lenguajes</p>
+
+<ul>
+  <li>Race conditions a los locks olvidados de liberar</li>
+  <li>Deadlocks que resulten de locks inconsistentes</li>
+  <li>Corrupción si hay excepciones no capturadas</li>
+  <li>Notificaciones omitidas puede traducirse en pérdida de notificación al thread.</li>
+</ul>
+
+<p>Estos problemas afectan a cualquier escala de software usando este esquema, por lo que es bastante complejo el manejo de threads con estado compartido, en nuestro caso con <code class="highlighter-rouge">IORef</code>s</p>
+
+<p>Pero que es STM, ademas de memoria transaccional? Es un mecanismo de lock optimista.</p>
+
+<p>Software transactional memory (STM) nos da unas herramientas básicas aunque potentes con las cuales podemos solucionar casi todos los problemas ya mencionados. STM ejecuta un bloque de acciones como una transacción usando un combinador llamado atomically, en suma este combinador nos permite convertir una transacción STM en un bloque ejecutable. Una vez que entramos al bloque, otros threads no pueden ver ninguna modificaciones que hagamos hasta que salgamos, y nuestro thread no puede ver ninguno de los cambios hechos por otros threads. Estas dos propiedades hacen que nuestra ejecución sea aislada. Esto nos hace pensar a algo muy similar a un mutex, en el que no se permite a otro thread modificar un estado hasta que lo libere.</p>
+
+<p><img src="https://raw.githubusercontent.com/arquitecturas-concurrentes/iasc-stm-haskell-2019/master/01_semaphores_and_philosophers/mutex.png" alt="STM y mutex" /></p>
+
+<p>Cuando se sale de una transacción, solo una de las dos siguientes cosas pueden suceder:</p>
+
+<ul>
+  <li>
+    <p>Si no hay otro thread que haya modificado concurrentemente el mismo estado que nosotros, todas nuestras modificaciones serán visibles automáticamente a otros threads</p>
+  </li>
+  <li>
+    <p>Toas las modificaciones son descartadas sin ser ejecutadas, y nuestro bloque de acciones es reiniciado automáticamente.</p>
+  </li>
+</ul>
+
+<p>La naturaleza de ejecutar todo o nada del bloque atomically se ejecuta de manera atómica, por eso se llama asi :P .
+Esto es una de las propiedades ACID que vemos en las bases de datos, y es por eso que trabajando con STM se ve que es algo medianamente similar aunque más simple.</p>
+
+<p>Veamos un ejemplo simple para entender esta parte teorica, y que mejor que nuestro viejo ejemplo del contador…</p>
+
+<p>vamos a ver que nuestro contador en vez de ser un <code class="highlighter-rouge">IORef</code> va a ser una abstraccion que pueda usar STM en funcion de la interfaz que tiene y que esta en parte basado en <code class="highlighter-rouge">IORef</code>, el mismo se llama <code class="highlighter-rouge">TVar</code>, vamos a crear un type alias que es similar al ejemplo anterior pero en funcion de <code class="highlighter-rouge">TVar</code></p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">type</span> <span class="kt">Counter</span> <span class="o">=</span> <span class="kt">TVar</span> <span class="kt">Int</span>
+</code></pre></div></div>
+
+<p>Bien ahora veamos de crear nuestro sucesor, la firma que tendra es la siguiente</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">incTVar</span> <span class="o">::</span> <span class="kt">Counter</span> <span class="o">-&gt;</span> <span class="kt">STM</span> <span class="nb">()</span>
+</code></pre></div></div>
+
+<p>Interesante ahora en vez de pasar <code class="highlighter-rouge">IO ()</code> devolvemos <code class="highlighter-rouge">STM ()</code>, y esto que es?. Es una accion tambien como lo es IO pero <code class="highlighter-rouge">STM a</code> sera una accion que es mucho mas cerrada, en cuanto a las operaciones que admite, si bien podemos siempre modelar con un tipo mas abarcativo como lo es IO, no es necesario ya que queremos que nuestro contador se maneje en el mundo de <code class="highlighter-rouge">STM</code>, por lo que dentro de este tipo de acciones se va a poder escribir y leer variables transaccionales, y estas son siempre del tipo <code class="highlighter-rouge">TVar a</code>, de esta manera vamos a tener siempre las funciones de escritura y lectura, la firma de las mismas es:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">readTVar</span>  <span class="o">::</span> <span class="kt">TVar</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">STM</span> <span class="n">a</span>
+<span class="n">writeTVar</span> <span class="o">::</span> <span class="kt">TVar</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">STM</span> <span class="nb">()</span>
+</code></pre></div></div>
+
+<p>buenismo, ahora entendemos la firma, y los metodos que usamos para leer y escribir una variable mutable y transaccional, escribamos el contador.</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">incTVar</span> <span class="n">counter</span> <span class="o">=</span> <span class="kr">do</span>
+    <span class="n">val</span> <span class="o">&lt;-</span> <span class="n">readTVar</span> <span class="n">counter</span>
+    <span class="n">writeTVar</span> <span class="n">counter</span> <span class="p">(</span><span class="n">val</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>De la parte mas teorica STM tiene a los <code class="highlighter-rouge">TVar</code> que contienen un estado compartido, cuando un thread ejecuta una transacción, crea un log para el solo, en STM tenemos las dos operaciones que son <code class="highlighter-rouge">writeTVar</code> y <code class="highlighter-rouge">readTVar</code>, cuando se modifica una <code class="highlighter-rouge">TVar</code> por medio de <code class="highlighter-rouge">writeTVar</code>, no se pisa este valor pero se lo registra en el log, o sea el log es como un diario que solo usaremos dentro del contexto de la transacción para un thread en particular, y se desecha al salir del bloque de la transacción.</p>
+
+<p>Hablamos de un contexto en el cual un recurso como un <code class="highlighter-rouge">TVar</code> va a estar bloqueado por un solo thread hasta que no salga de ese mismo contexto. Hasta ahora no lo vimos, y es algo que ya nos da <code class="highlighter-rouge">STM</code> y que se llama <code class="highlighter-rouge">atomically</code></p>
+
+<p>Su firma es</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">atomically</span> <span class="o">::</span> <span class="kt">STM</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="n">a</span>
+</code></pre></div></div>
+
+<p>Interesante, toma una accion de STM y nos va a dar una accion de IO que es mas libre. lo que siempre tenemos en <code class="highlighter-rouge">atomically acc</code> podemos meterlo en una do-notation y de esta manera podemos ejecutar lo que querriamos que se maneja atomicamente dentro de ese <code class="highlighter-rouge">contexto</code> atomico. Entonces en STM en haskell, las <code class="highlighter-rouge">TVar</code>s nos proveen con la abstraccion que tendria el estado o variable mutable y generaria el log de las operaciones y <code class="highlighter-rouge">atomically</code> nos daria un contexto que querriamos que se use como si fuese una operacion. Esto es para que una transaccion se pueda rechazar o aceptar una vez que se termna lo que se hizo en ese bloque.</p>
+
+<p>Que nos da <code class="highlighter-rouge">atomically</code> para terminar con esta parte?</p>
+
+<ul>
+  <li>Atomicidad: Los efectos despues de salir de un bloque de atomically, lo van a poder ver los otros threads pero no mientras haya un lock, esto garantiza que si hay mas de una operacion dentro de este bloque que sea de lectura y escritura, vamos a estar seguros que no fue modificado entre operaciones por otro thread.</li>
+  <li>Aislamiento: De lo que mencionamos en el punto anterior, mientras estemos dentro del bloque de atomically, otros threads no van a poder modificar nuestra variables involucradas, y cualquier operacion que quieran hacer sobre ellas fallara.</li>
+</ul>
+
+<p>Bien ahora terminemos el ejemplo del contador.. ahora usemos el contador e incrementemos el valor, y antes de eso imprimiendo el valor</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">exec</span> <span class="o">::</span> <span class="kt">Counter</span> <span class="o">-&gt;</span> <span class="kt">IO</span><span class="nb">()</span>
+<span class="n">exec</span> <span class="n">cont</span> <span class="o">=</span> <span class="kr">do</span>
+    <span class="n">hPutStr</span> <span class="n">stdout</span> <span class="s">"Incrementando el contador en 1..."</span>
+    <span class="n">incTVar</span> <span class="n">cont</span>
+
+<span class="n">main</span> <span class="o">=</span> <span class="kr">do</span>
+    <span class="n">cont</span> <span class="o">&lt;-</span> <span class="n">atomically</span> <span class="p">(</span><span class="n">newTVar</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">exec</span> <span class="n">cont</span> 
+</code></pre></div></div>
+<p>Lo que sucedera es que esto nos va a fallar… y porque? porque si bien incTVar es una operacion de STM, hPutStr es de IO, y por lo tanto al ser acciones de distinto tipo, no pueden usarse dentro de una do-notation</p>
+
+<p>Y que podriamos hacer entonces???
+Bueno veamos que el bloque atomically si genera una accion de IO () como retorno entonces podriamos tan solo cambiar el exec agregando un atomically a la operacion de usar la funcion incTVar con el contador.</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">exec</span> <span class="o">::</span> <span class="kt">Counter</span> <span class="o">-&gt;</span> <span class="kt">IO</span><span class="nb">()</span>
+<span class="n">exec</span> <span class="n">cont</span> <span class="o">=</span> <span class="kr">do</span>
+    <span class="n">hPutStr</span> <span class="n">stdout</span> <span class="s">"Incrementando el contador en 1..."</span>
+    <span class="n">atomically</span> <span class="p">(</span><span class="n">incTVar</span> <span class="n">cont</span><span class="p">)</span>
+
+<span class="n">main</span> <span class="o">=</span> <span class="kr">do</span>
+    <span class="n">cont</span> <span class="o">&lt;-</span> <span class="n">atomically</span> <span class="p">(</span><span class="n">newTVar</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">exec</span> <span class="n">cont</span> 
+</code></pre></div></div>
+
+<h3 id="usando-un-poco-mas-stm">Usando un poco mas STM</h3>
+
+<p>Ahora veamos un caso un poco mas complicado, el caso en el que pueda generarse un efecto que no se esperaba o cuando esta el camino en el que detectemos un fallo bajo una condicion. Pero antes de eso se pueden generar otros escenarios, cuando hablamos de transaccionalidad, lo vimos en concepto del bloque ``atomically<code class="highlighter-rouge">, dentro de ese bloque los TVars que vayamos usando crearan un log y una vez que se termine ese log se tiene que chequear si todos los pasos fueron realizados exitosamente, ahi y solo ahi se commiteara la transaccion y el valor quedara impactado finalmente en estas variables mutables, pero que pasa si fallara alguna validacion o alguna operacion? Como STM tiene que garantizar la atomicidad de la operacion si no se puede comittear la operacion ya que puede quedar las variables en un estado inconsistente, entonces debe volver a intentar y eso se conoce en STM como </code>re-excecution<code class="highlighter-rouge">. Debido a que estos cambios se hacen aun en memoria, tan solo se vuelve al estado inicial y se vuelve a intentar la operacion. Bien, hasta ahi todo muy lindo pero que pasa si hay algo que se sale por afuera de ese control de STM, por ejemplo un efecto de </code>IO`, y peor aun, esto se hace en un contexto de atomicidad como el siguiente ejemplo?</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">efectoIO</span> <span class="o">::</span> <span class="kt">IO</span><span class="nb">()</span>
+<span class="n">efectoIO</span> <span class="o">=</span> <span class="n">hPutStr</span> <span class="n">stdout</span> <span class="s">"Hola efecto de lado!"</span>
+
+<span class="n">main</span> <span class="o">=</span> <span class="kr">do</span>
+    <span class="n">a</span> <span class="o">&lt;-</span> <span class="n">atomically</span> <span class="p">(</span><span class="n">newTVar</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">&lt;-</span> <span class="n">atomically</span> <span class="p">(</span><span class="n">newTVar</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">atomically</span> <span class="p">(</span> <span class="kr">do</span>
+        <span class="n">x</span> <span class="o">&lt;-</span> <span class="n">readTVar</span> <span class="n">a</span>
+        <span class="n">y</span> <span class="o">&lt;-</span> <span class="n">readTVar</span> <span class="n">b</span>
+        <span class="kr">if</span> <span class="n">y</span><span class="o">&lt;</span><span class="n">x</span> <span class="kr">then</span> <span class="n">efectoIO</span>
+               <span class="kr">else</span> <span class="n">return</span><span class="nb">()</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Bien en ese caso si y es menor a x, se generara un efecto de IO y al ser este efecto algo que puede generar una posible inconsistencia en los datos y que entonces se tenga que volver a re ejercutar todo, pero igualmente esto por suerte va a fallar incluso antes, porque como vimos en el ejemplo del contador, no podemos tener una operacion de IO combinada con una de STM, por lo que deberia fallar en compilacion.</p>
+
+<p>Perfecto, pero entonces como hacemos para volver a reintentar la operacion?? Utilizando la funcion retry, que tiene la siguiente firma:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">retry</span> <span class="o">::</span> <span class="kt">STM</span> <span class="n">a</span>
+</code></pre></div></div>
+
+<p>veamos un ejemplo en el que queremos hacer esto, que es el de semaforos:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">type</span> <span class="kt">Semaphore</span> <span class="o">=</span> <span class="kt">TVar</span> <span class="kt">Bool</span>
+
+<span class="n">newSem</span> <span class="o">::</span> <span class="kt">Bool</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="kt">Semaphore</span>
+<span class="n">newSem</span> <span class="n">aval</span> <span class="o">=</span> <span class="n">newTVarIO</span> <span class="n">aval</span>
+
+<span class="n">p</span> <span class="o">::</span> <span class="kt">Semaphore</span> <span class="o">-&gt;</span> <span class="kt">STM</span><span class="nb">()</span>
+<span class="n">p</span> <span class="n">sem</span> <span class="o">=</span> <span class="kr">do</span>
+    <span class="n">b</span> <span class="o">&lt;-</span> <span class="n">readTVar</span> <span class="n">sem</span>
+    <span class="kr">if</span> <span class="n">b</span>
+        <span class="kr">then</span> <span class="n">writeTVar</span> <span class="n">sem</span> <span class="kt">False</span>
+        <span class="kr">else</span> <span class="n">retry</span>
+
+<span class="n">v</span> <span class="o">::</span> <span class="kt">Semaphore</span> <span class="o">-&gt;</span> <span class="kt">STM</span><span class="nb">()</span>
+<span class="n">v</span> <span class="n">sem</span> <span class="o">=</span> <span class="n">writeTVar</span> <span class="n">sem</span> <span class="kt">True</span>
+</code></pre></div></div>
+
+<p>cada vez que nosotros queremos chequear con el flag si se puede entrar o no en la condicion, vamos a tener que ver si el flag esta seteado en false, que significa que el recurso que maneja el semaforo esta siendo usado. Si este valor esta en false, deberia abortarse la operacon y solo cuando se termine se seteara en True, si bien despues podemos agregar el atomically, esto siempre es en funcion de como se usa.</p>
+
+<p>Podemos incluso cambiar esto como una funcion check que si dado una condicion nos da falso, deberiamos abortar la operacion, extrayendo esto en una funcion podemos dejar esto como</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">check</span> <span class="o">::</span> <span class="kt">Bool</span> <span class="o">-&gt;</span> <span class="kt">STM</span> <span class="nb">()</span>
+<span class="n">check</span> <span class="kt">True</span>  <span class="o">=</span> <span class="n">return</span> <span class="nb">()</span>
+<span class="n">check</span> <span class="kt">False</span> <span class="o">=</span> <span class="n">retry</span>
+</code></pre></div></div>
+
+<p>ahora esto lo podemos usar en alguna condicion que en el caso de que falle el booleano nos haga la re ejecucion del bloque</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">type</span> <span class="kt">Resource</span> <span class="o">=</span> <span class="kt">TVar</span> <span class="kt">Int</span>
+
+<span class="n">check</span> <span class="o">::</span> <span class="kt">Bool</span> <span class="o">-&gt;</span> <span class="kt">STM</span> <span class="nb">()</span>
+<span class="n">check</span> <span class="kt">True</span>  <span class="o">=</span> <span class="n">return</span> <span class="nb">()</span>
+<span class="n">check</span> <span class="kt">False</span> <span class="o">=</span> <span class="n">retry</span>
+
+<span class="n">acquire</span> <span class="o">::</span> <span class="kt">Resource</span> <span class="o">-</span> <span class="kt">Int</span> <span class="o">-</span> <span class="kt">STM</span> <span class="nb">()</span>
+<span class="n">acquire</span> <span class="n">res</span> <span class="n">nr</span> <span class="o">=</span> <span class="kr">do</span> <span class="n">n</span> <span class="o">&lt;-</span> <span class="n">readTVar</span> <span class="n">res</span>
+                    <span class="n">check</span> <span class="p">(</span> <span class="n">nr</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="p">)</span>
+                    <span class="n">writeTVar</span> <span class="n">res</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">nr</span><span class="p">)</span>
+                            
+<span class="n">release</span> <span class="o">::</span> <span class="kt">Resource</span> <span class="o">-</span> <span class="kt">Int</span> <span class="o">-</span> <span class="kt">STM</span> <span class="nb">()</span>
+<span class="n">release</span> <span class="n">res</span> <span class="n">nr</span> <span class="o">=</span> <span class="kr">do</span> <span class="n">n</span> <span class="o">&lt;-</span> <span class="n">readTVar</span> <span class="n">res</span>
+                    <span class="n">writeTVar</span> <span class="n">res</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="n">nr</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>El ultimo caso es el del <code class="highlighter-rouge">orElse</code>, donde es un caso en el cual si uno de los valores es nulo o no puede cumplirse, optara por el camino que puede tomar como segundo parametro, la firma es la siguiente:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">orElse</span> <span class="o">::</span> <span class="kt">STM</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">STM</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">STM</span> <span class="n">a</span>
+</code></pre></div></div>
+
+<p>Como funcionaria esta funcion? Bueno es como un combinador, tiene dos acciones de STM, si la primera falla, o sea recibe un retry, no sigue intentando y en su lugar opta por la segunda accion y retorna esta si no falla.</p>
+
+<p>Veamos un ejemplo bien simple de esto.</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">someFailingOp</span> <span class="o">::</span> <span class="kt">TVar</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">STM</span> <span class="nb">()</span>
+<span class="n">someFailingOp</span> <span class="n">a</span> <span class="o">=</span>
+    <span class="n">v</span> <span class="o">&lt;-</span> <span class="n">readTVar</span> <span class="n">a</span>
+    <span class="kr">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="mi">49494949</span>
+        <span class="kr">then</span> <span class="n">retry</span>
+        <span class="kr">else</span> <span class="n">return</span> <span class="nb">()</span>
+
+<span class="n">successOp</span> <span class="o">::</span> <span class="kt">TVar</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">STM</span><span class="nb">()</span>
+<span class="n">successOp</span> <span class="n">a</span> <span class="o">=</span>
+    <span class="n">v</span> <span class="o">&lt;-</span> <span class="n">readTVar</span> <span class="n">a</span>
+    <span class="kr">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="kr">then</span> <span class="n">writeTVar</span> <span class="n">a</span> <span class="mi">33723</span>
+        <span class="kr">else</span> <span class="n">retry</span>
+
+<span class="n">anElseOperation</span> <span class="o">::</span> <span class="kt">TVar</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">TVar</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="kt">STM</span> <span class="nb">()</span> 
+<span class="n">anElseOperation</span> <span class="n">a</span> <span class="n">b</span> <span class="o">=</span>
+    <span class="kt">OrElse</span> <span class="p">(</span><span class="n">someFailingOp</span> <span class="n">a</span><span class="p">)</span> <span class="p">(</span><span class="n">successOp</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="n">main</span> <span class="o">=</span> <span class="kr">do</span>
+    <span class="n">a</span> <span class="o">&lt;-</span> <span class="n">atomically</span> <span class="p">(</span><span class="n">newTVar</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">&lt;-</span> <span class="n">atomically</span> <span class="p">(</span><span class="n">newTVar</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">atomically</span> <span class="p">(</span><span class="n">anElseOperation</span> <span class="n">a</span> <span class="n">b</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="ejercicio-de-los-filosofos-que-cenan">Ejercicio de los filosofos que cenan</h4>
+
+<p><img src="https://raw.githubusercontent.com/arquitecturas-concurrentes/iasc-stm-haskell-2019/master/01_semaphores_and_philosophers/filosofos.png" alt="filosofos" /></p>
+
+<p>Explicamos TMVar, que es?</p>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="footer">
+    <div class="columns small-12 medium-12 large-12">
+        © 2020 - IASC
+    </div>
+</div>
+<!-- jQuery CDN - Slim version (=without AJAX) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<!-- Popper.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+        integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+<!-- Lunr JS Search -->
+<!-- <script src="https://unpkg.com/lunr/lunr.js"></script> -->
+<script src="https://unpkg.com/lunr@1.0/lunr.js"></script>
+<script src="/iasc-book//js/search.js"></script>
+
+
+<!--This part will enable the circle button to show/hide the right bar-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('.sidebar').toggleClass('sidebar-inactive');
+            $(this).toggleClass('active');
+        });
+    });
+</script>
+
+
+</body>
+
+</html>
